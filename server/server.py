@@ -1,6 +1,6 @@
 import socket
-from lobby import Lobby
-from socketwrapper import SocketWrapper
+from server.lobby import Lobby
+from common.socketwrapper import SocketWrapper
 
 class Server:
 
