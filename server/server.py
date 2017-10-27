@@ -1,5 +1,6 @@
 import socket
 from lobby import Lobby
+from socketwrapper import SocketWrapper
 
 class Server:
 
@@ -22,7 +23,9 @@ class Server:
     def run(self):
         while self.running:
             (client_socket, address) = self.socket.accept()
+            client_socket = SocketWrapper(client_socket)
             self.lobby.add_client(client_socket)
+            client_socket.start_listening()
 
 if __name__ == '__main__':
     server = Server(47777)
