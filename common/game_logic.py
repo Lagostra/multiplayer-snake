@@ -49,8 +49,7 @@ class GameLogic:
             for o_snake in level.snakes:
                 if snake == o_snake:
                     if snake.body[0] in snake.body[1:]:
-                        level.blocks.extend(list(map(lambda x: Block(x),
-                                                     (filter(lambda x: x != snake.body[0], snake.body)))))
+                        level.blocks.extend(list(map(lambda x: Block(x), snake.body[1:])))
                         snakes_collided.append(snake)
 
 
