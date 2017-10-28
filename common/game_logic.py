@@ -1,3 +1,4 @@
+from block import Block
 from level import Level
 
 
@@ -27,13 +28,13 @@ class GameLogic:
         snakes_collided = []
         # check box collision
         for snake in level.snakes:
-            if snake.body[0] in level.blocks:
-                level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
+            if snake.body[0] in map(lambda x: x.position, level.blocks):
+                level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
         # check wall collision
         for snake in level.snakes:
             if snake.body[0][0] < level.dimensions[0]/2 - 1 or snake.body[0][0] > level.dimensions[0]/2:
-                level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
+                level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
         # check snake collision
         for snake in level.snakes:
