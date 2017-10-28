@@ -1,9 +1,10 @@
+from level import Level
 
 
-class gameLogic:
+class GameLogic:
 
-    def __init__(self, level):
-        self.level = level
+    def __init__(self):
+        self.level = Level(30, 20)
 
     def player_move(self, snake, direction):
         filter(lambda x: x == snake, self.level.snake_list).direction = direction
@@ -23,7 +24,13 @@ class gameLogic:
         snake.insert(0, new_head)
 
     def check_collision(self):
-        pass
+        for snakes in self.level.snakes_list:
+            for other_snake in filter(lambda x: x != snakes, self.level.snakes_list):
+                if snakes.body[0] in other_snake.body:
+                    pass
+
+
+
 
 
 
