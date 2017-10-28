@@ -1,6 +1,6 @@
 
 
-class Block():
+class Block:
 
     def __init__(self, pos):
         self.position = pos

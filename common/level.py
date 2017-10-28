@@ -1,6 +1,6 @@
 
 
-class Level():
+class Level:
 
     def __init__(self, dimensions):
         self.snakes = []
