@@ -25,12 +25,17 @@ class Client:
         self.display.blit(self.screen, (0, 0))
         pygame.display.flip()
 
+    def update(self, events):
+        self.screen.update(events)
+
     def run(self):
 
         while self.running:
             self.clock.tick(30)
 
             events = pygame.event.get()
+
+            self.update(events)
 
             for event in events:
                 if event.type == pygame.QUIT:
