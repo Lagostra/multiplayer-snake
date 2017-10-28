@@ -8,7 +8,8 @@ class GameLogic:
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def player_move(self, snake, direction):
-        pass
+        if direction in range(0, 4):
+            snake.direction = direction
 
     def tick(self):
         temp_level = self.level
