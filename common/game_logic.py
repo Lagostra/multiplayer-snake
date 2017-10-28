@@ -5,6 +5,7 @@ from level import Level
 class GameLogic:
 
     def __init__(self):
+        self.eat_percent = 0.9
         self.level = Level((30, 20))
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
@@ -45,19 +46,28 @@ class GameLogic:
                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
         # check snake collision
-        for snake in level.snakes:
+        '''for snake in level.snakes:
             for o_snake in level.snakes:
                 if snake == o_snake:
                     if snake.body[0] in snake.body[1:]:
                         level.blocks.extend(list(map(lambda x: Block(x), snake.body[1:])))
                         snakes_collided.append(snake)
-
-
+                else: # not self duhh
+                    if snake.body[0] in o_snake.body:
+                        if snake.body[0] == 
+         '''
         for dead_snake in snakes_collided:
             level.snakes.pop(level.snakes.index(dead_snake))
 
         for snake in level.snakes:
-            snake.body.pop()
+            if snake.body[0] in list(map(lambda x: x.position, level.apples)):
+                apple_pop_i = None
+                for ind, apple in enumerate(level.apples):
+                    if apple.position == snake.body[0]:
+                        apple_pop_i = ind
+                level.apples.pop(apple_pop_i)
+            else:
+                snake.body.pop()
 
 
 
