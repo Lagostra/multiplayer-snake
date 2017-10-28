@@ -3,8 +3,8 @@
 class Level():
 
     def __init__(self, dimensions):
-        self.snake_list = []
-        self.apple_list = []
-        self.block_lists = []
+        self.snakes = []
+        self.apples = []
+        self.blocks = []
 
         self.dimensions = dimensions

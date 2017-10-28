@@ -2,5 +2,5 @@
 
 class Block():
 
-    def __init__(self):
-        self.position = (x, y)
+    def __init__(self, pos):
+        self.position = pos
