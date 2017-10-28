@@ -38,24 +38,21 @@ class GameLogic:
                 snakes_collided.append(snake)
         # check wall collision
         for snake in level.snakes:
-            if snake.body[0][0] < -level.dimensions[0]/2 - 1 or snake.body[0][0] > level.dimensions[0]/2:
+            if snake.body[0][0] <= -level.dimensions[0]/2 - 1 or snake.body[0][0] >= level.dimensions[0]/2:
                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
-            if snake.body[0][1] < -level.dimensions[1]/2 - 1 or snake.body[0][1] > level.dimensions[1]/2:
+            if snake.body[0][1] <= -level.dimensions[1]/2 - 1 or snake.body[0][1] >= level.dimensions[1]/2:
                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
         # check snake collision
-        '''for snake in level.snakes:
+        for snake in level.snakes:
             for o_snake in level.snakes:
                 if snake == o_snake:
                     if snake.body[0] in snake.body[1:]:
                         level.blocks.extend(list(map(lambda x: Block(x),
                                                      (filter(lambda x: x != snake.body[0], snake.body)))))
-                else:
-                    if snake.body[0] in o_snake.body:
-                        # can eat the other
-                        pass
-        '''
+                        snakes_collided.append(snake)
+
 
         for dead_snake in snakes_collided:
             level.snakes.pop(level.snakes.index(dead_snake))
