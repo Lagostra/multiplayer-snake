@@ -15,6 +15,7 @@ class GameLogic:
         temp_level = self.level
         for snake in temp_level.snakes:
             self.move_snake(snake)
+        self.check_collision(temp_level)
         self.level = temp_level
 
 
@@ -28,12 +29,12 @@ class GameLogic:
         for snake in level.snakes:
             if snake.body[0] in level.blocks:
                 level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
-                snakes_collided(level.snakes.index(snake))
+                snakes_collided(snake)
         # check wall collision
         for snake in level.snakes:
             if snake.body[0][0] < level.dimensions[0]/2 - 1 or snake.body[0][0] > level.dimensions[0]/2:
                 level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
-                snakes_collided(level.snakes.index(snake))
+                snakes_collided(snake)
         # check snake collision
         for snake in level.snakes:
             for o_snake in level.snakes:
