@@ -29,12 +29,12 @@ class GameLogic:
         for snake in level.snakes:
             if snake.body[0] in level.blocks:
                 level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
-                snakes_collided(snake)
+                snakes_collided.append(snake)
         # check wall collision
         for snake in level.snakes:
             if snake.body[0][0] < level.dimensions[0]/2 - 1 or snake.body[0][0] > level.dimensions[0]/2:
                 level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
-                snakes_collided(snake)
+                snakes_collided.append(snake)
         # check snake collision
         for snake in level.snakes:
             for o_snake in level.snakes:
