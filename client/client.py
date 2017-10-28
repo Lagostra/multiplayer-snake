@@ -31,7 +31,7 @@ class Client:
     def run(self):
 
         while self.running:
-            self.clock.tick(30)
+            self.clock.tick(10)
 
             events = pygame.event.get()
 
