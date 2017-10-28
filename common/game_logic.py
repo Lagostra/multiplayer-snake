@@ -9,8 +9,13 @@ class GameLogic:
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def player_move(self, snake, direction):
-        if direction in range(0, 4):
-            snake.direction = direction
+        if direction not in range(0, 4):
+            return
+        if len(snake.body) > 1:
+            d = self.dir_list[direction]
+            if snake.body[1][0] == snake.body[0][0] + d[0] and snake.body[1][1] == snake.body[0][1] + d[1]:
+                return
+        snake.direction = direction
 
     def tick(self):
         temp_level = self.level
