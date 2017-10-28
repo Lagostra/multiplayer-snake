@@ -4,7 +4,7 @@ from level import Level
 class GameLogic:
 
     def __init__(self):
-        self.level = Level(30, 20)
+        self.level = Level((30, 20))
 
     def player_move(self, snake, direction):
         filter(lambda x: x == snake, self.level.snake_list).direction = direction
