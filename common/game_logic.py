@@ -41,7 +41,8 @@ class GameLogic:
                     if snake.body[0] in snake.body[1:]:
                         level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
 
-
+        for snake in level.snakes:
+            snake.body.pop()
 
 
 
