@@ -47,3 +47,11 @@ class SocketWrapper:
             return True
         except ConnectionResetError:
             return False
+
+    def send(self, message):
+        message = bytes(message, 'utf-8')
+        try:
+            self.socket.send(struct.pack('i', len(message)) + message)
+            return True
+        except ConnectionResetError:
+            return False
