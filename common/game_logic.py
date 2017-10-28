@@ -8,8 +8,7 @@ class GameLogic:
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def player_move(self, snake, direction):
-        # check if valid - fix this one
-        filter(lambda x: x == snake, self.level.snake_list).direction = direction
+        pass
 
     def tick(self):
         temp_level = self.level
@@ -19,12 +18,28 @@ class GameLogic:
 
 
     def move_snake(self, snake):
-        snake.body.insert(0, (snake.body[0][0] + self.dir_dict[snake.direction][0],
-                          snake.body[0][1] + self.dir_dict[snake.direction][1]))
+        snake.body.insert(0, (snake.body[0][0] + self.dir_list[snake.direction][0],
+                          snake.body[0][1] + self.dir_list[snake.direction][1]))
 
     def check_collision(self, level):
+        snakes_collided = []
         # check box collision
-        pass
+        for snake in level.snakes:
+            if snake.body[0] in level.blocks:
+                level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
+                snakes_collided(level.snakes.index(snake))
+        # check wall collision
+        for snake in level.snakes:
+            if snake.body[0][0] < level.dimensions[0]/2 - 1 or snake.body[0][0] > level.dimensions[0]/2:
+                level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
+                snakes_collided(level.snakes.index(snake))
+        # check snake collision
+        for snake in level.snakes:
+            for o_snake in level.snakes:
+                if snake == o_snake:
+                    if snake.body[0] in snake.body[1:]:
+                        level.blocks.extend(list(filter(lambda x: x != snake.body[0], snake.body)))
+
 
 
 
