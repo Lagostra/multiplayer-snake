@@ -5,7 +5,7 @@ class GameLogic:
 
     def __init__(self):
         self.level = Level((30, 20))
-        self.dir_dict = {0: (0, -1), 1: {1, 0}, 2: {0, 1}, 3: {-1, 0}}
+        self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def player_move(self, snake, direction):
         # check if valid - fix this one
@@ -17,10 +17,14 @@ class GameLogic:
             self.move_snake(snake)
         self.level = temp_level
 
-    def move_snake(self, snake):
-        snake.body.insert(snake.body[0][0] + self.dir_dict[snake.direction][0],
-                          snake.body[0][1] + self.dir_dict[snake.direction][1])
 
+    def move_snake(self, snake):
+        snake.body.insert(0, (snake.body[0][0] + self.dir_dict[snake.direction][0],
+                          snake.body[0][1] + self.dir_dict[snake.direction][1]))
+
+    def check_collision(self, level):
+        # check box collision
+        pass
 
 
 
