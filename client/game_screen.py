@@ -26,6 +26,15 @@ class GameScreen(pygame.Surface):
                     elif event.key == pygame.K_RIGHT:
                         self.game.player_move(self.game.level.snakes[0], 1)
 
+                    if event.key == pygame.K_w:
+                        self.game.player_move(self.game.level.snakes[1], 0)
+                    elif event.key == pygame.K_s:
+                        self.game.player_move(self.game.level.snakes[1], 2)
+                    elif event.key == pygame.K_a:
+                        self.game.player_move(self.game.level.snakes[1], 3)
+                    elif event.key == pygame.K_d:
+                        self.game.player_move(self.game.level.snakes[1], 1)
+
         self.game.tick()
 
 
