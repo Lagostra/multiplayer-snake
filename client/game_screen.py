@@ -1,6 +1,7 @@
 import json
 
 import pygame
+import sys
 
 from game_logic import GameLogic
 
@@ -101,3 +102,5 @@ class GameScreen(pygame.Surface):
             self.tick_queue.append(message['payload'])
             #self.game.read_json(message['payload'])
             #self.game.tick()
+        elif message['type'] == 'game_over':
+            pass

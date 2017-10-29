@@ -15,7 +15,7 @@ class Client:
         pygame.init()
         self.display = pygame.display.set_mode(dimensions)
         self.clock = pygame.time.Clock()
-        self.connect('192.168.1.100', 47777)
+        self.connect('localhost', 47777)
         self.screen = GameScreen(dimensions, self.socket)
 
     def start(self):

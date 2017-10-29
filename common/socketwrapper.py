@@ -45,5 +45,5 @@ class SocketWrapper:
         try:
             self.socket.send(struct.pack('i', len(message)) + message)
             return True
-        except ConnectionResetError:
+        except (ConnectionResetError, ConnectionAbortedError):
             return False

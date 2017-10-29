@@ -128,8 +128,8 @@ class GameLogic:
     def get_json(self):
         payload = dict()
         snake_list = []
-        for snakes in self.level.snakes:
-            snake_list.append({"id": snakes.id, "direction": self.snake_moves[snakes.id]})
+        for identity, move in self.snake_moves.items():
+            snake_list.append({"id": identity, "direction": move})
         apple_list = []
         for apple in self.new_apples:
             apple_list.append({"x": apple.position[0], "y": apple.position[1]})

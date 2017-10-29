@@ -94,6 +94,13 @@ class Game:
         })
         self.send_to_all(message)
 
+        if not len(self.game_logic.level.snakes):
+            # No more snakes - GAME OVER
+            self.send_to_all(json.dumps({
+                'type': 'game_over'
+            }))
+            self.running = False
+
     def run(self):
         last_tick = 0
         while self.running:
