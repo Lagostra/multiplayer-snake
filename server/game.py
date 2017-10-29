@@ -32,7 +32,9 @@ class Game:
         }
 
         for snake in self.game_logic.level.snakes:
-            payload['snakes'].append({'id': snake.id, 'x': snake.body[0][0], 'y': snake.body[0][1]})
+            payload['snakes'].append({'id': snake.id,
+                                      'x': snake.body[0][0], 'y': snake.body[0][1],
+                                     'dir': snake.direction})
 
         for apple in self.game_logic.level.apples:
             payload['apples'].append({'x': apple.position[0], 'y': apple.position[1]})

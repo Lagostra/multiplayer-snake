@@ -1,7 +1,8 @@
 import pygame
 import socket
-from socketwrapper import SocketWrapper
+import sys
 
+from socketwrapper import SocketWrapper
 from game_screen import GameScreen
 
 
@@ -14,7 +15,7 @@ class Client:
         pygame.init()
         self.display = pygame.display.set_mode(dimensions)
         self.clock = pygame.time.Clock()
-        self.connect('192.168.1.100', 47777)
+        self.connect('localhost', 47777)
         self.screen = GameScreen(dimensions, self.socket)
 
     def start(self):
@@ -25,7 +26,7 @@ class Client:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((address, port))
         self.socket = SocketWrapper(sock)
-        self.socket.listeners.append(lambda x, y: print(y))
+        self.socket.start_listening()
 
     def stop(self):
         self.running = False
@@ -49,7 +50,8 @@ class Client:
 
             for event in events:
                 if event.type == pygame.QUIT:
-                    self.stop()
+                    sys.exit(0)  # Force quit - maybe change this later...
+                    #self.stop()
 
             self.render()
 

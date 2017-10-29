@@ -27,7 +27,7 @@ class Level:
         self.dimensions = (json['level_size']['width'], json['level_size']['width'])
 
         for snake in json['snakes']:
-            self.snakes.append(Snake((snake['x'], snake['y']), snake['id']))
+            self.snakes.append(Snake((snake['x'], snake['y']), snake['id'], snake['dir']))
 
         for apple in json['apples']:
             self.apples.append(Apple((apple['x'], apple['y'])))

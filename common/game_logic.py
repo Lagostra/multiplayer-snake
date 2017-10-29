@@ -121,6 +121,8 @@ class GameLogic:
                     new_snake.direction = 1
                 if x >= 0:
                     new_snake.direction = 3
+
+                self.level.snakes.append(new_snake)
                 return new_snake
 
     def get_json(self):

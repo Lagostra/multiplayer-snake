@@ -7,7 +7,7 @@ from game_logic import GameLogic
 
 class GameScreen(pygame.Surface):
 
-    local_game = False
+    local_game = True
 
     def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
