@@ -56,6 +56,8 @@ class Game:
     def add_player(self, user):
         self.players.append(Player(user))
         user.socket.listeners.append(self.handle_message)
+        if len(self.players) == 2:
+            self.start()
 
     def send_to_all(self, message):
         for player in self.players:

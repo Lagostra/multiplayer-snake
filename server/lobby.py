@@ -5,6 +5,7 @@ from game import Game
 class Lobby:
 
     user_counter = 1
+    game = None
 
     def __init__(self):
         self.users = []
@@ -16,8 +17,10 @@ class Lobby:
         socket.listeners.append(self.handle_message)
 
         # Create and start a game when a player connects. Should be removed!
-        game = Game(user)
-        game.start()
+        if not self.game or self.game.started and not self.game.running:
+            self.game = Game(user)
+        else:
+            self.game.add_player(user)
 
     def send_to(self, user, msg_type, payload):
         message = json.dumps({'type': msg_type, 'payload': payload})
