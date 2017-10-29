@@ -29,6 +29,8 @@ class Level:
         for snake in json['snakes']:
             self.snakes.append(Snake((snake['x'], snake['y']), snake['id'], snake['dir']))
 
+        self.snakes.sort(key=lambda x: x.id)
+
         for apple in json['apples']:
             self.apples.append(Apple((apple['x'], apple['y'])))
 
