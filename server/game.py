@@ -1,6 +1,6 @@
 import json
 import threading
-import time.time()
+import time
 
 from game_logic import GameLogic
 
