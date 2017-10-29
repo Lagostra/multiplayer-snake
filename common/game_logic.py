@@ -1,3 +1,6 @@
+import random
+
+from apple import Apple
 from block import Block
 from level import Level
 
@@ -29,6 +32,14 @@ class GameLogic:
     def move_snake(self, snake):
         snake.body.insert(0, (snake.body[0][0] + self.dir_list[snake.direction][0],
                           snake.body[0][1] + self.dir_list[snake.direction][1]))
+
+    def spawn_apples(self):
+        while len(self.level.apples) < self.level.num_apples:
+            x = random.randint(-self.level.dimensions[0] // 2, self.level.dimensions[0] // 2 - 1)
+            y = random.randint(-self.level.dimensions[1] // 2, self.level.dimensions[1] // 2 - 1)
+
+            if (x, y) not in self.level.all_blocks():
+                self.level.apples.append(Apple((x, y)))
 
     def check_collision(self, level):
         snakes_collided = []
