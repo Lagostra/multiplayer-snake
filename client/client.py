@@ -1,4 +1,6 @@
 import pygame
+import socket
+from socketwrapper import SocketWrapper
 
 from game_screen import GameScreen
 
@@ -6,16 +8,23 @@ from game_screen import GameScreen
 class Client:
 
     running = False
+    socket = None
 
     def __init__(self, dimensions):
         pygame.init()
         self.display = pygame.display.set_mode(dimensions)
         self.clock = pygame.time.Clock()
-        self.screen = GameScreen(dimensions)
+        self.connect('localhost', 47777)
+        self.screen = GameScreen(dimensions, self.socket)
 
     def start(self):
         self.running = True
         self.run()
+
+    def connect(self, address, port):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((address, port))
+        self.socket = SocketWrapper(sock)
 
     def stop(self):
         self.running = False
