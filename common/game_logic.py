@@ -76,21 +76,18 @@ class GameLogic:
                         if snake.body[0] == o_snake.body[0] or \
                                 (snake.body[0] == o_snake.body[1] and snake.body[1] == o_snake.body[0]):
                             if len(snake.body) == 1:
-                                level.blocks.extend(
-                                    list(map(lambda x: Block(x),
-                                             (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
+                                snakes_collided.append(snake)
                             elif len(o_snake.body) == 1:
-                                level.blocks.extend(
-                            list(map(lambda x: Block(x), (filter(lambda x: x != o_snake.body[0], o_snake.body[:-1])))))
+                                snakes_collided.append(o_snake)
                             else:
                                 level.blocks.extend(list(map(lambda x: Block(x),
                                                              (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
                                 level.blocks.extend(
                                     list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body[:-1])))))
-                            if snake not in snakes_collided:
-                                snakes_collided.append(snake)
-                            if o_snake not in snakes_collided:
-                                snakes_collided.append(o_snake)
+                                if snake not in snakes_collided:
+                                    snakes_collided.append(snake)
+                                if o_snake not in snakes_collided:
+                                    snakes_collided.append(o_snake)
                         else:  # head to something diff
                             if len(snake.body)/len(o_snake.body) > self.eat_percent:
                                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0],
