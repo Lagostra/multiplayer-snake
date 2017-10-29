@@ -1,3 +1,5 @@
+import itertools
+
 from apple import Apple
 from block import Block
 from snake import Snake
@@ -26,3 +28,11 @@ class Level:
         self.blocks.append(Block((-5, -5)))
 
         self.dimensions = dimensions
+
+    def all_blocks(self):
+        return itertools.chain(itertools.chain.from_iterable(map(lambda x: x.body, self.snakes)),
+                map(lambda x: x.position, self.apples), map(lambda x: x.position, self.blocks))
+
+if __name__ == '__main__':
+    for x in Level((30, 20)).all_blocks():
+        print(x)
