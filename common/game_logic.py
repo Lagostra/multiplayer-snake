@@ -59,10 +59,10 @@ class GameLogic:
                             level.blocks.extend(
                                 list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                             level.blocks.extend(
-                                list(map(lambda x: Block(x), (filter(lambda x: x != o_snake.body[0], o_snake.body)))))
+                                list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body)))))
                             snakes_collided.append(snake)
                             snakes_collided.append(o_snake)
-                        else:  # head to something diff
+                        '''else:  # head to something diff
                             if len(snake.body)/len(o_snake.body) > self.eat_percent:
                                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0],
                                                             o_snake.body[o_snake.body.index(snake.body[0]):])))))
@@ -71,10 +71,10 @@ class GameLogic:
                                 #cant eat, to low
                                 level.blocks.extend(
                                     list(map(lambda x: Block(x),
-                                             (filter(lambda x: x != o_snake.body[0], o_snake.body)))))
+                                             (filter(lambda x: x != o_snake.body[0], o_snake.body)))))'''
 
         for dead_snake in snakes_collided:
-            level.snakes.pop(level.snakes.index(dead_snake))
+            level.snakes.remove(dead_snake)
 
         for snake in level.snakes:
             if snake.body[0] in list(map(lambda x: x.position, level.apples)):
