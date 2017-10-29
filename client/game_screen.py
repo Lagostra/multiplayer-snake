@@ -10,6 +10,7 @@ class GameScreen(pygame.Surface):
 
     local_game = True
     tick_queue = []
+    player_snake = None
 
     def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
@@ -87,7 +88,10 @@ class GameScreen(pygame.Surface):
             for segment in snake.body:
                 x = (segment[0] + level.dimensions[0] // 2) * tile_size
                 y = (segment[1] + level.dimensions[1] // 2) * tile_size
-                pygame.draw.rect(self, (0, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
+                if snake.id == self.player_snake:
+                    pygame.draw.rect(self, (72, 192, 232), (x + x_offset, y + y_offset, tile_size, tile_size))
+                else:
+                    pygame.draw.rect(self, (0, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
 
     def handle_message(self, socket, message):
         try:
@@ -98,6 +102,7 @@ class GameScreen(pygame.Surface):
 
         if message['type'] == 'init':
             self.game.level.init_from_json(message['payload'])
+            self.player_snake = message['payload']['player_snake']
         elif message['type'] == 'tick':
             self.tick_queue.append(message['payload'])
             #self.game.read_json(message['payload'])

@@ -42,12 +42,13 @@ class Game:
         for block in self.game_logic.level.blocks:
             payload['blocks'].append({'x': block.position[0], 'y': block.position[1]})
 
-        message = json.dumps({
-            'type': 'init',
-            'payload': payload
-        })
-
-        self.send_to_all(message)
+        for player in self.players:
+            payload['player_snake'] = player.snake.id
+            message = json.dumps({
+                'type': 'init',
+                'payload': payload
+            })
+            player.user.socket.send(message)
 
         threading.Thread(target=lambda: self.run()).start()
 
