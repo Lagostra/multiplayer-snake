@@ -3,6 +3,7 @@ import random
 from apple import Apple
 from block import Block
 from level import Level
+from snake import Snake
 
 
 class GameLogic:
@@ -66,23 +67,28 @@ class GameLogic:
                 else: # not self duhh
                     # head to head
                     if snake.body[0] in o_snake.body:
-                        if snake.body[0] == o_snake.body[0]:
+                        if snake.body[0] == o_snake.body[0] or \
+                                (snake.body[0] == o_snake.body[1] and snake.body[1] == o_snake.body[0]):
                             level.blocks.extend(
-                                list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
+                                list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
                             level.blocks.extend(
-                                list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body)))))
-                            snakes_collided.append(snake)
-                            snakes_collided.append(o_snake)
-                        '''else:  # head to something diff
+                                list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body[:-1])))))
+                            if snake not in snakes_collided:
+                                snakes_collided.append(snake)
+                            if o_snake not in snakes_collided:
+                                snakes_collided.append(o_snake)
+                        else:  # head to something diff
                             if len(snake.body)/len(o_snake.body) > self.eat_percent:
                                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0],
-                                                            o_snake.body[o_snake.body.index(snake.body[0]):])))))
-                                o_snake.body = o_snake.body[o_snake.body.index(snake.body[0]) + 1:]
+                                                            o_snake.body[o_snake.body.index(snake.body[0])+1:])))))
+                                o_snake.body = o_snake.body[:o_snake.body.index(snake.body[0]) + 1]
                             else:
                                 #cant eat, to low
                                 level.blocks.extend(
                                     list(map(lambda x: Block(x),
-                                             (filter(lambda x: x != o_snake.body[0], o_snake.body)))))'''
+                                             (filter(lambda x: x, snake.body[1:])))))
+                                if snake not in snakes_collided:
+                                    snakes_collided.append(snake)
 
         for dead_snake in snakes_collided:
             level.snakes.remove(dead_snake)
@@ -97,7 +103,18 @@ class GameLogic:
             else:
                 snake.body.pop()
 
+    def add_snake(self):
+        while True:
+            x = random.randint(-self.level.dimensions[0] // 2, self.level.dimensions[0] // 2 - 1)
+            y = random.randint(-self.level.dimensions[1] // 2, self.level.dimensions[1] // 2 - 1)
 
+            if (x, y) not in self.level.all_blocks():
+                new_snake = Snake((x, y))
+                if x < 0:
+                    new_snake.direction = 1
+                if x >= 0:
+                    new_snake.direction = 3
+                return new_snake
 
 
 

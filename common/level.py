@@ -16,7 +16,9 @@ class Level:
 
         self.snakes.append(Snake((5, 0)))
         self.snakes[0].direction = 3
-        self.snakes.append(Snake((-5, 1)))
+        #self.snakes[0].body.extend([(4, 1), (4, 2), (4, 3), (4, 4), (4, 5)])
+        self.snakes.append(Snake((5, 1)))
+        #self.snakes[1].body.extend([(2, -4), (2, -5)])
         self.snakes[1].direction = 1
 
         self.apples.append(Apple((5, -5)))
