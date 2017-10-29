@@ -10,7 +10,7 @@ from snake import Snake
 class GameLogic:
 
     def __init__(self):
-        self.eat_percent = 0.9
+        self.eat_percent = 0.3
         self.level = Level((30, 20))
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
         self.new_apples = []
@@ -75,10 +75,18 @@ class GameLogic:
                     if snake.body[0] in o_snake.body:
                         if snake.body[0] == o_snake.body[0] or \
                                 (snake.body[0] == o_snake.body[1] and snake.body[1] == o_snake.body[0]):
-                            level.blocks.extend(
-                                list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
-                            level.blocks.extend(
-                                list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body[:-1])))))
+                            if len(snake.body) == 1:
+                                level.blocks.extend(
+                                    list(map(lambda x: Block(x),
+                                             (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
+                            elif len(o_snake.body) == 1:
+                                level.blocks.extend(
+                            list(map(lambda x: Block(x), (filter(lambda x: x != o_snake.body[0], o_snake.body[:-1])))))
+                            else:
+                                level.blocks.extend(list(map(lambda x: Block(x),
+                                                             (filter(lambda x: x != snake.body[0], snake.body[:-1])))))
+                                level.blocks.extend(
+                                    list(map(lambda x: Block(x), (filter(lambda x: x, o_snake.body[:-1])))))
                             if snake not in snakes_collided:
                                 snakes_collided.append(snake)
                             if o_snake not in snakes_collided:

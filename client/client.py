@@ -15,7 +15,7 @@ class Client:
         pygame.init()
         self.display = pygame.display.set_mode(dimensions)
         self.clock = pygame.time.Clock()
-        self.connect('localhost', 47777)
+        self.connect('192.168.1.162', 47777)
         self.screen = GameScreen(dimensions, self.socket)
 
     def start(self):
@@ -50,6 +50,7 @@ class Client:
 
             for event in events:
                 if event.type == pygame.QUIT:
+                    pygame.quit()
                     sys.exit(0)  # Force quit - maybe change this later...
                     #self.stop()
 
