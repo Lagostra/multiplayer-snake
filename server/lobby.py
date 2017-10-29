@@ -48,9 +48,6 @@ class Lobby:
             # Invalid JSON format - ignore message
             return
 
-
-        print(message)
-
         # Handle message
         try:
             if message['type'] == 'change_username':

@@ -135,17 +135,17 @@ class GameLogic:
             apple_list.append({"x": apple.position[0], "y": apple.position[1]})
         self.new_apples = []
         level_size = {"width": self.level.dimensions[0], "height": self.level.dimensions[1]}
-        payload.update({"snakes": snake_list})
+        payload["snakes"] = snake_list
         payload.update({"apples": apple_list})
         payload.update({"level_size": level_size})
-        return json.dumps(payload)
+        return payload
 
     def read_json(self, message):
         snakes_mess = message["snakes"]
         for snake in self.level.snakes:
-            snake.direction = snakes_mess[snake.id]
+            snake.direction = snakes_mess[snake.id]['direction']
         for x in message["apples"]:
-            self.level.apples.append(Apple(x["x"], x["y"]))
+            self.level.apples.append(Apple((x["x"], x["y"])))
         self.level.dimensions = (message["level_size"]["width"], message["level_size"]["height"])
 
 

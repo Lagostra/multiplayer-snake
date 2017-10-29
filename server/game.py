@@ -56,6 +56,7 @@ class Game:
 
     def add_player(self, user):
         self.players.append(Player(user))
+        user.socket.listeners.append(self.handle_message)
 
     def send_to_all(self, message):
         for player in self.players:
@@ -78,11 +79,20 @@ class Game:
             
             if message['type'] == 'start_game' and not self.started:
                 self.start()
-            elif message['type'] == 'move' and self.started:
-                self.game_logic.player_move(player.snake, message['payload'])
+
+        if message['type'] == 'move' and self.started:
+            self.game_logic.player_move(player.snake, int(message['payload']))
 
     def tick(self):
         self.game_logic.tick()
+        self.game_logic.spawn_apples()
+
+        payload = self.game_logic.get_json()
+        message = json.dumps({
+            'type': 'tick',
+            'payload': payload
+        })
+        self.send_to_all(message)
 
     def run(self):
         last_tick = 0

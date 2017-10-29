@@ -48,13 +48,12 @@ class GameScreen(pygame.Surface):
                     elif event.key == pygame.K_DOWN:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 2}))
                     elif event.key == pygame.K_LEFT:
-                        self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
-                    elif event.key == pygame.K_RIGHT:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 3}))
-
-        self.game.tick()
+                    elif event.key == pygame.K_RIGHT:
+                        self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
 
         if self.local_game:
+            self.game.tick()
             self.game.spawn_apples()
 
     def render(self):
@@ -94,3 +93,6 @@ class GameScreen(pygame.Surface):
 
         if message['type'] == 'init':
             self.game.level.init_from_json(message['payload'])
+        elif message['type'] == 'tick':
+            self.game.read_json(message['payload'])
+            self.game.tick()
