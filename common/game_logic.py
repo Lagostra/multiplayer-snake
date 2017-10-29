@@ -109,13 +109,13 @@ class GameLogic:
             y = random.randint(-self.level.dimensions[1] // 2, self.level.dimensions[1] // 2 - 1)
 
             if (x, y) not in self.level.all_blocks():
-                new_snake = Snake((x, y))
+
+                new_snake = Snake((x, y), self.level.snakes - 1)
                 if x < 0:
                     new_snake.direction = 1
                 if x >= 0:
                     new_snake.direction = 3
                 return new_snake
-
 
 
 
