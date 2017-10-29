@@ -140,6 +140,15 @@ class GameLogic:
         payload.update({"level_size": level_size})
         return json.dumps(payload)
 
+    def read_json(self, message):
+        snakes_mess = message["snakes"]
+        for snake in self.level.snakes:
+            snake.direction = snakes_mess[snake.id]
+        for x in message["apples"]:
+            self.level.apples.append(Apple(x["x"], x["y"]))
+        self.level.dimensions = (message["level_size"]["width"], message["level_size"]["height"])
+
+
 
 
 
