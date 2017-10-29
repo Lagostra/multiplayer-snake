@@ -8,6 +8,7 @@ from game_logic import GameLogic
 class GameScreen(pygame.Surface):
 
     local_game = True
+    tick_queue = []
 
     def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
@@ -55,6 +56,9 @@ class GameScreen(pygame.Surface):
         if self.local_game:
             self.game.tick()
             self.game.spawn_apples()
+        elif len(self.tick_queue):
+            self.game.read_json(self.tick_queue.pop(0))
+            self.game.tick()
 
     def render(self):
         self.fill((255, 255, 255))
@@ -94,5 +98,6 @@ class GameScreen(pygame.Surface):
         if message['type'] == 'init':
             self.game.level.init_from_json(message['payload'])
         elif message['type'] == 'tick':
-            self.game.read_json(message['payload'])
-            self.game.tick()
+            self.tick_queue.append(message['payload'])
+            #self.game.read_json(message['payload'])
+            #self.game.tick()
