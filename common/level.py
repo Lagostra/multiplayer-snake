@@ -6,6 +6,8 @@ from snake import Snake
 class Level:
 
     def __init__(self, dimensions):
+        self.num_apples = 1
+
         self.snakes = []
         self.apples = []
         self.blocks = []
