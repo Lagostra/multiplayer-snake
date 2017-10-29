@@ -10,8 +10,8 @@ class Lobby:
         self.users = []
 
     def add_client(self, socket):
-        user = User(socket)
-        self.users.append(User(socket, self.user_counter))
+        user = User(socket, self.user_counter)
+        self.users.append(user)
         self.user_counter += 1
         socket.listeners.append(self.handle_message)
 
