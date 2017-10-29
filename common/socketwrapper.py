@@ -13,8 +13,8 @@ class SocketWrapper:
     def start_listening(self):
         if self.listening:
             return False
-        threading.Thread(target=lambda: self.listen()).start()
         self.listening = True
+        threading.Thread(target=lambda: self.listen()).start()
         return True
 
     def stop_listening(self):
