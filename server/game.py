@@ -99,11 +99,11 @@ class Game:
         while self.running:
             cur = time.time()
             diff = cur - last_tick
-            if diff >= 0.1:
+            if diff >= 0.12:
                 last_tick = cur
                 self.tick()
-            elif diff > 0.01:
-                time.sleep(diff - 0.01)
+            #elif diff > 0.01:
+            #    time.sleep(diff - 0.01)
 
 
 class Player:
