@@ -46,16 +46,33 @@ class GameLogic:
                 level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
                 snakes_collided.append(snake)
         # check snake collision
-        '''for snake in level.snakes:
+        for snake in level.snakes:
             for o_snake in level.snakes:
                 if snake == o_snake:
                     if snake.body[0] in snake.body[1:]:
                         level.blocks.extend(list(map(lambda x: Block(x), snake.body[1:])))
                         snakes_collided.append(snake)
                 else: # not self duhh
+                    # head to head
                     if snake.body[0] in o_snake.body:
-                        if snake.body[0] == 
-         '''
+                        if snake.body[0] == o_snake.body[0]:
+                            level.blocks.extend(
+                                list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0], snake.body)))))
+                            level.blocks.extend(
+                                list(map(lambda x: Block(x), (filter(lambda x: x != o_snake.body[0], o_snake.body)))))
+                            snakes_collided.append(snake)
+                            snakes_collided.append(o_snake)
+                        else:  # head to something diff
+                            if len(snake.body)/len(o_snake.body) > self.eat_percent:
+                                level.blocks.extend(list(map(lambda x: Block(x), (filter(lambda x: x != snake.body[0],
+                                                            o_snake.body[o_snake.body.index(snake.body[0]):])))))
+                                o_snake.body = o_snake.body[o_snake.body.index(snake.body[0]) + 1:]
+                            else:
+                                #cant eat, to low
+                                level.blocks.extend(
+                                    list(map(lambda x: Block(x),
+                                             (filter(lambda x: x != o_snake.body[0], o_snake.body)))))
+
         for dead_snake in snakes_collided:
             level.snakes.pop(level.snakes.index(dead_snake))
 
