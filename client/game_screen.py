@@ -1,3 +1,5 @@
+import json
+
 import pygame
 
 from game_logic import GameLogic
@@ -7,11 +9,13 @@ class GameScreen(pygame.Surface):
 
     local_game = True
 
-    def __init__(self, dimensions):
+    def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
 
         self.game = GameLogic()
         self.dimensions = dimensions
+        self.local_game = socket is None
+        self.socket = socket
 
     def update(self, events):
         if self.local_game:
@@ -34,6 +38,17 @@ class GameScreen(pygame.Surface):
                         self.game.player_move(self.game.level.snakes[1], 3)
                     elif event.key == pygame.K_d:
                         self.game.player_move(self.game.level.snakes[1], 1)
+        else:
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        self.socket.send(json.dumps({'type': 'move', 'payload': 0}))
+                    elif event.key == pygame.K_DOWN:
+                        self.socket.send(json.dumps({'type': 'move', 'payload': 2}))
+                    elif event.key == pygame.K_LEFT:
+                        self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
+                    elif event.key == pygame.K_RIGHT:
+                        self.socket.send(json.dumps({'type': 'move', 'payload': 3}))
 
         self.game.tick()
 

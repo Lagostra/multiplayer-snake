@@ -1,5 +1,7 @@
 import json
 
+from game import Game
+
 class Lobby:
 
     user_counter = 1
@@ -8,9 +10,14 @@ class Lobby:
         self.users = []
 
     def add_client(self, socket):
+        user = User(socket)
         self.users.append(User(socket, self.user_counter))
         self.user_counter += 1
         socket.listeners.append(self.handle_message)
+
+        # Create and start a game when a player connects. Should be removed!
+        game = Game(user)
+        game.start()
 
     def send_to(self, user, msg_type, payload):
         message = json.dumps({'type': msg_type, 'payload': payload})
