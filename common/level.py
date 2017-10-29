@@ -20,9 +20,6 @@ class Level:
         self.snakes[1].direction = 1
 
         self.apples.append(Apple((5, -5)))
-        self.apples.append(Apple((10, 5)))
-        self.apples.append(Apple((5, -8)))
-        self.apples.append(Apple((-5, 5)))
 
 
         self.blocks.append(Block((-5, -5)))
@@ -32,7 +29,3 @@ class Level:
     def all_blocks(self):
         return itertools.chain(itertools.chain.from_iterable(map(lambda x: x.body, self.snakes)),
                 map(lambda x: x.position, self.apples), map(lambda x: x.position, self.blocks))
-
-if __name__ == '__main__':
-    for x in Level((30, 20)).all_blocks():
-        print(x)
