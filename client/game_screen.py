@@ -55,7 +55,6 @@ class GameScreen(pygame.Surface):
         if self.local_game:
             self.game.spawn_apples()
 
-
     def render(self):
         self.fill((255, 255, 255))
         level = self.game.level

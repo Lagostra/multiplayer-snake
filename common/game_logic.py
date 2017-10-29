@@ -124,8 +124,6 @@ class GameLogic:
                 return new_snake
 
     def get_json(self):
-        message = dict()
-        message.update({"type": "tick"})
         payload = dict()
         snake_list = []
         for snakes in self.level.snakes:
@@ -138,8 +136,7 @@ class GameLogic:
         payload.update({"snakes": snake_list})
         payload.update({"apples": apple_list})
         payload.update({"level_size": level_size})
-        message.update({"payload": payload})
-        return json.dumps(message)
+        return json.dumps(payload)
 
 
 
