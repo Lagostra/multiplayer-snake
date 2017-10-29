@@ -92,9 +92,9 @@ class GameScreen(pygame.Surface):
                     pygame.draw.rect(self, (72, 192, 232), (x + x_offset, y + y_offset, tile_size, tile_size))
                 else:
                     if len(self.player_snake.body)/len(snake.body) > self.game.eat_percent:
-                        pygame.draw.rect(self, (76, 252, 76), (x + x_offset, y + y_offset, tile_size, tile_size))
-                    else:
                         pygame.draw.rect(self, (0, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
+                    else:
+                        pygame.draw.rect(self, (255, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
 
     def handle_message(self, socket, message):
         try:
