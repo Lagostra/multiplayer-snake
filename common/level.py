@@ -7,26 +7,33 @@ from snake import Snake
 
 class Level:
 
-    def __init__(self, dimensions):
+    def __init__(self, dimensions=None):
         self.num_apples = 1
 
         self.snakes = []
         self.apples = []
         self.blocks = []
 
-        self.snakes.append(Snake((5, 0)))
-        self.snakes[0].direction = 3
-        #self.snakes[0].body.extend([(4, 1), (4, 2), (4, 3), (4, 4), (4, 5)])
-        self.snakes.append(Snake((5, 1)))
-        #self.snakes[1].body.extend([(2, -4), (2, -5)])
-        self.snakes[1].direction = 1
+        if dimensions:
+            self.dimensions = dimensions
+        else:
+            self.dimensions = (0, 0)
 
-        self.apples.append(Apple((5, -5)))
+    def init_from_json(self, json):
+        self.snakes = []
+        self.apples = []
+        self.blocks = []
 
+        self.dimensions = (json['level_size']['width'], json['level_size']['width'])
 
-        self.blocks.append(Block((-5, -5)))
+        for snake in json['snakes']:
+            self.snakes.append(Snake((snake['x'], snake['y']), snake['id']))
 
-        self.dimensions = dimensions
+        for apple in json['apples']:
+            self.apples.append(Apple((apple['x'], apple['y'])))
+
+        for block in json['blocks']:
+            self.apples.append(Block((block['x'], block['y'])))
 
     def all_blocks(self):
         return itertools.chain(itertools.chain.from_iterable(map(lambda x: x.body, self.snakes)),

@@ -7,7 +7,7 @@ from game_logic import GameLogic
 
 class GameScreen(pygame.Surface):
 
-    local_game = True
+    local_game = False
 
     def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
@@ -16,6 +16,8 @@ class GameScreen(pygame.Surface):
         self.dimensions = dimensions
         self.local_game = socket is None
         self.socket = socket
+        if socket:
+            socket.listeners.append(self.handle_message)
 
     def update(self, events):
         if self.local_game:
@@ -55,7 +57,6 @@ class GameScreen(pygame.Surface):
         if self.local_game:
             self.game.spawn_apples()
 
-
     def render(self):
         self.fill((255, 255, 255))
         level = self.game.level
@@ -65,8 +66,6 @@ class GameScreen(pygame.Surface):
         h = level.dimensions[1] * tile_size
         x_offset = (self.dimensions[0] - w) // 2
         y_offset = (self.dimensions[1] - h) // 2
-
-
 
         pygame.draw.rect(self, (0, 0, 0), (x_offset, y_offset, w, h))
 
@@ -85,3 +84,13 @@ class GameScreen(pygame.Surface):
                 x = (segment[0] + level.dimensions[0] // 2) * tile_size
                 y = (segment[1] + level.dimensions[1] // 2) * tile_size
                 pygame.draw.rect(self, (0, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
+
+    def handle_message(self, socket, message):
+        try:
+            message = json.loads(message)
+        except json.decoder.JSONDecodeError:
+            # Invalid JSON format - ignore message
+            return
+
+        if message['type'] == 'init':
+            self.game.level.init_from_json(message['payload'])

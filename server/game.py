@@ -4,6 +4,7 @@ import time
 
 from game_logic import GameLogic
 
+
 class Game:
 
     started = False
@@ -23,9 +24,8 @@ class Game:
         for player in self.players:
             player.snake = self.game_logic.add_snake()
 
-
         payload = {
-            'level_size': {'x': self.game_logic.level.dimensions[0], 'y': self.game_logic.level.dimensions[1]},
+            'level_size': {'width': self.game_logic.level.dimensions[0], 'height': self.game_logic.level.dimensions[1]},
             'snakes': [],
             'apples': [],
             'blocks': []
@@ -90,7 +90,7 @@ class Game:
             if diff >= 0.1:
                 last_tick = cur
                 self.tick()
-            elif diff < 0.09:
+            elif diff > 0.01:
                 time.sleep(diff - 0.01)
 
 
