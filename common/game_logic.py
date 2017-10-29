@@ -1,3 +1,4 @@
+import json
 import random
 
 from apple import Apple
@@ -12,6 +13,8 @@ class GameLogic:
         self.eat_percent = 0.9
         self.level = Level((30, 20))
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
+        self.new_apples = []
+        self.snake_moves = dict()
 
     def player_move(self, snake, direction):
         if direction not in range(0, 4):
@@ -26,6 +29,7 @@ class GameLogic:
         temp_level = self.level
         for snake in temp_level.snakes:
             self.move_snake(snake)
+            self.snake_moves.update({snake.id: snake.direction})
         self.check_collision(temp_level)
         self.level = temp_level
 
@@ -40,7 +44,9 @@ class GameLogic:
             y = random.randint(-self.level.dimensions[1] // 2, self.level.dimensions[1] // 2 - 1)
 
             if (x, y) not in self.level.all_blocks():
-                self.level.apples.append(Apple((x, y)))
+                new_apple = Apple((x, y))
+                self.level.apples.append(new_apple)
+                self.new_apples.append(new_apple)
 
     def check_collision(self, level):
         snakes_collided = []
@@ -116,6 +122,21 @@ class GameLogic:
                 if x >= 0:
                     new_snake.direction = 3
                 return new_snake
+
+    def get_json(self):
+        payload = dict()
+        snake_list = []
+        for snakes in self.level.snakes:
+            snake_list.append({"id": snakes.id, "direction": self.snake_moves[snakes.id]})
+        apple_list = []
+        for apple in self.new_apples:
+            apple_list.append({"x": apple.position[0], "y": apple.position[1]})
+        self.new_apples = []
+        level_size = {"width": self.level.dimensions[0], "height": self.level.dimensions[1]}
+        payload.update({"snakes": snake_list})
+        payload.update({"apples": apple_list})
+        payload.update({"level_size": level_size})
+        return json.dumps(payload)
 
 
 
