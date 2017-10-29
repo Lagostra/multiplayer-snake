@@ -75,9 +75,9 @@ class GameLogic:
                     if snake.body[0] in o_snake.body:
                         if snake.body[0] == o_snake.body[0] or \
                                 (snake.body[0] == o_snake.body[1] and snake.body[1] == o_snake.body[0]):
-                            if len(snake.body) == 1:
+                            if len(snake.body) == 1 and len(o_snake.body) > 1:
                                 snakes_collided.append(snake)
-                            elif len(o_snake.body) == 1:
+                            elif len(o_snake.body) == 1 and len(snake.body) > 1:
                                 snakes_collided.append(o_snake)
                             else:
                                 level.blocks.extend(list(map(lambda x: Block(x),
