@@ -7,15 +7,13 @@ from game_logic import GameLogic
 
 class Game:
 
-    started = False
-    running = False
-    players = []
-    admin_user = None
-
     def __init__(self, admin_user):
+        self.players = []
         self.add_player(admin_user)
         self.admin_user = admin_user
         self.game_logic = GameLogic()
+        self.started = False
+        self.running = False
 
     def start(self):
         self.started = True
