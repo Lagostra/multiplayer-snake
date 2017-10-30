@@ -68,7 +68,7 @@ class GameScreen(pygame.Surface):
             self.game.tick()
 
     def render(self):
-        self.fill((255, 255, 255))
+        self.fill((0, 0, 0))
         level = self.game.level
         tile_size = min([self.dimensions[0] // level.dimensions[0], self.dimensions[1] // level.dimensions[1]])
 
@@ -77,7 +77,7 @@ class GameScreen(pygame.Surface):
         x_offset = (self.dimensions[0] - w) // 2
         y_offset = (self.dimensions[1] - h) // 2
 
-        pygame.draw.rect(self, (0, 0, 0), (x_offset, y_offset, w, h))
+        pygame.draw.rect(self, (83, 89, 99), (x_offset, y_offset, w, h))
 
         for apple in level.apples:
             x = (apple.position[0] + level.dimensions[0] // 2) * tile_size
