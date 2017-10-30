@@ -55,6 +55,10 @@ class GameScreen(pygame.Surface):
                         self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
                     elif event.key == pygame.K_SPACE:
                         self.socket.send(json.dumps({'type': 'poop'}))
+                    elif event.key == pygame.K_RETURN:
+                        self.socket.send(json.dumps({'type': 'start_game'}))
+                    elif event.key == pygame.K_r:
+                        self.socket.send(json.dumps({'type': 'restart'}))
 
         if self.local_game:
             self.game.tick()

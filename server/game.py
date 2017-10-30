@@ -10,15 +10,16 @@ class Game:
     def __init__(self, admin_user):
         self.ticks = 0
         self.players = []
-        self.add_player(admin_user)
-        self.admin_user = admin_user
-        self.game_logic = GameLogic()
         self.started = False
         self.running = False
+        self.add_player(admin_user)
+        self.admin_user = admin_user
+        self.game_logic = None
 
     def start(self):
         self.started = True
         self.running = True
+        self.game_logic = GameLogic()
 
         for player in self.players:
             player.snake = self.game_logic.add_snake()
@@ -55,10 +56,10 @@ class Game:
         self.running = False
 
     def add_player(self, user):
+        if self.started:
+            return
         self.players.append(Player(user))
         user.socket.listeners.append(self.handle_message)
-        if len(self.players) == 2:
-            self.start()
 
     def send_to_all(self, message):
         for player in self.players:
@@ -88,8 +89,10 @@ class Game:
             
             if message['type'] == 'start_game' and not self.started:
                 self.start()
+            elif message['type'] == 'restart' and self.started and not self.running:
+                self.start()
 
-        if self.started:
+        if self.running:
             if message['type'] == 'move':
                 self.game_logic.player_move(player.snake, int(message['payload']))
             if message['type'] == 'poop':
