@@ -17,6 +17,9 @@ class Game:
         self.game_logic = None
 
     def start(self):
+        threading.Thread(target=lambda: self._start()).start()
+
+    def _start(self):
         self.started = True
         self.running = True
         self.game_logic = GameLogic()
@@ -37,7 +40,7 @@ class Game:
         for snake in self.game_logic.level.snakes:
             payload['snakes'].append({'id': snake.id,
                                       'x': snake.body[0][0], 'y': snake.body[0][1],
-                                     'dir': snake.direction})
+                                      'dir': snake.direction})
 
         for apple in self.game_logic.level.apples:
             payload['apples'].append({'x': apple.position[0], 'y': apple.position[1]})
@@ -53,7 +56,6 @@ class Game:
             })
             player.user.socket.send(message)
 
-
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 3}))
         time.sleep(1)
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 2}))
@@ -62,7 +64,7 @@ class Game:
         time.sleep(1)
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 0}))
 
-        threading.Thread(target=lambda: self.run()).start()
+        self.run()
 
     def stop(self):
         self.running = False
@@ -104,11 +106,10 @@ class Game:
             elif message['type'] == 'restart' and self.started and not self.running:
                 self.start()
 
-        if self.running:
-            if message['type'] == 'move':
-                self.game_logic.player_move(player.snake, int(message['payload']))
-            if message['type'] == 'poop':
-                self.game_logic.player_poop(player.snake)
+        if message['type'] == 'move':
+            self.game_logic.player_move(player.snake, int(message['payload']))
+        if message['type'] == 'poop':
+            self.game_logic.player_poop(player.snake)
 
     def tick(self):
         self.ticks += 1
