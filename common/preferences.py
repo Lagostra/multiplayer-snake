@@ -1,6 +1,6 @@
 import json
 
-PREFERENCES_FILE = '../preferences.json'
+PREFERENCES_FILE = 'preferences.json'
 
 preferences = {
     'resolution': (800, 600),

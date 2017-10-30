@@ -86,11 +86,3 @@ class Client:
                         self.alt_down = False
 
             self.render()
-
-
-if __name__ == '__main__':
-    preferences.load()
-    preferences.save()
-
-    client = Client(preferences.preferences['resolution'])
-    client.start()

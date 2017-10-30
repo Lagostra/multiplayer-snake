@@ -28,10 +28,3 @@ class Server:
             client_socket = SocketWrapper(client_socket)
             self.lobby.add_client(client_socket)
             client_socket.start_listening()
-
-if __name__ == '__main__':
-    preferences.load()
-    preferences.save()
-
-    server = Server(47777)
-    server.start()
