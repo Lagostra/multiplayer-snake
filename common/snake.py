@@ -6,6 +6,7 @@ class Snake:
         self.id = identity
         self.body = [pos]
         self.direction = direction  # North = 0, East = 1, South = 2, West = 3
+        self.pooping = False
 
     def get_len(self):
         return len(self.body)

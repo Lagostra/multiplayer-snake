@@ -53,6 +53,8 @@ class GameScreen(pygame.Surface):
                         self.socket.send(json.dumps({'type': 'move', 'payload': 3}))
                     elif event.key == pygame.K_RIGHT:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
+                    elif event.key == pygame.K_SPACE:
+                        self.socket.send(json.dumps({'type': 'poop'}))
 
         if self.local_game:
             self.game.tick()

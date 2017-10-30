@@ -89,8 +89,11 @@ class Game:
             if message['type'] == 'start_game' and not self.started:
                 self.start()
 
-        if message['type'] == 'move' and self.started:
-            self.game_logic.player_move(player.snake, int(message['payload']))
+        if self.started:
+            if message['type'] == 'move':
+                self.game_logic.player_move(player.snake, int(message['payload']))
+            if message['type'] == 'poop':
+                self.game_logic.player_poop(player.snake)
 
     def tick(self):
         self.ticks += 1

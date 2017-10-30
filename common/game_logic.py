@@ -14,6 +14,7 @@ class GameLogic:
         self.dir_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
         self.new_apples = []
         self.snake_moves = dict()
+        self.snake_poop = dict()
 
     def player_move(self, snake, direction):
         if direction not in range(0, 4):
@@ -24,14 +25,18 @@ class GameLogic:
                 return
         snake.direction = direction
 
+    def player_poop(self, snake):
+        snake.pooping = True
+
     def tick(self):
         temp_level = self.level
         for snake in temp_level.snakes:
             self.move_snake(snake)
             self.snake_moves.update({snake.id: snake.direction})
+            self.snake_poop.update({snake.id: snake.pooping})
+            snake.pooping = False
         self.check_collision(temp_level)
         self.level = temp_level
-
 
     def move_snake(self, snake):
         snake.body.insert(0, (snake.body[0][0] + self.dir_list[snake.direction][0],
@@ -114,6 +119,8 @@ class GameLogic:
                 level.apples.pop(apple_pop_i)
             else:
                 snake.body.pop()
+                if self.snake_poop[snake.id] and len(snake.body) > 1:
+                    self.level.blocks.append(Block(snake.body.pop()))
 
     def add_snake(self):
         while True:
@@ -135,7 +142,8 @@ class GameLogic:
         payload = dict()
         snake_list = []
         for identity, move in self.snake_moves.items():
-            snake_list.append({"id": identity, "direction": move})
+            snake_list.append({"id": identity, "direction": move, "pooping": self.snake_poop[identity]})
+
         apple_list = []
         for apple in self.new_apples:
             apple_list.append({"x": apple.position[0], "y": apple.position[1]})
@@ -150,6 +158,7 @@ class GameLogic:
         snakes_mess = message["snakes"]
         for snake in self.level.snakes:
             snake.direction = snakes_mess[snake.id]['direction']
+            snake.pooping = snakes_mess[snake.id]['pooping']
         for x in message["apples"]:
             self.level.apples.append(Apple((x["x"], x["y"])))
         self.level.dimensions = (message["level_size"]["width"], message["level_size"]["height"])
