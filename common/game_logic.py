@@ -39,7 +39,7 @@ class GameLogic:
                           snake.body[0][1] + self.dir_list[snake.direction][1]))
 
     def spawn_apples(self):
-        while len(self.level.apples) < self.level.num_apples:
+        while len(self.level.apples) < self.level.dimensions[0] * self.level.dimensions[1] * self.level.apple_amount:
             x = random.randint(-self.level.dimensions[0] // 2, self.level.dimensions[0] // 2 - 1)
             y = random.randint(-self.level.dimensions[1] // 2, self.level.dimensions[1] // 2 - 1)
 

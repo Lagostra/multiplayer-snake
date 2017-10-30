@@ -8,7 +8,7 @@ from snake import Snake
 class Level:
 
     def __init__(self, dimensions=None):
-        self.num_apples = 1
+        self.apple_amount = 0.01
 
         self.snakes = []
         self.apples = []
