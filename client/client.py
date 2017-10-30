@@ -18,8 +18,10 @@ class Client:
         pygame.init()
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         if preferences.preferences['fullscreen']:
+            self.fullscreen = True
             self.display = pygame.display.set_mode(dimensions, pygame.FULLSCREEN)
         else:
+            self.fullscreen = False
             self.display = pygame.display.set_mode(dimensions)
         pygame.display.set_caption('Snakes')
 
@@ -27,6 +29,13 @@ class Client:
         self.clock = pygame.time.Clock()
         self.connect(preferences.preferences['server'])
         self.screen = GameScreen(dimensions, self.socket)
+
+    def toggle_fullscreen(self):
+        self.fullscreen = not self.fullscreen
+        if self.fullscreen:
+            self.display = pygame.display.set_mode(preferences.preferences['resolution'], pygame.FULLSCREEN)
+        else:
+            self.display = pygame.display.set_mode(preferences.preferences['resolution'])
 
     def start(self):
         self.running = True
@@ -69,6 +78,8 @@ class Client:
                     elif self.alt_down and event.key == pygame.K_F4:
                         pygame.quit()
                         sys.exit(0)
+                    elif self.alt_down and event.key == pygame.K_RETURN:
+                        self.toggle_fullscreen()
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_LALT or event.key == pygame.K_RALT:
                         self.alt_down = False
