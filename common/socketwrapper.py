@@ -32,13 +32,14 @@ class SocketWrapper:
                     message += part
                 message = message.decode('utf-8')
             except OSError as e:
-                continue
-
-            for listener in self.listeners:
-                listener(self, message)
+                self.stop_listening()
+                return
 
             if not message:
                 self.stop_listening()
+
+            for listener in self.listeners:
+                listener(self, message)
 
     def send(self, message):
         message = bytes(message, 'utf-8')
