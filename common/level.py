@@ -24,7 +24,7 @@ class Level:
         self.apples = []
         self.blocks = []
 
-        self.dimensions = (json['level_size']['width'], json['level_size']['width'])
+        self.dimensions = (json['level_size']['width'], json['level_size']['height'])
 
         for snake in json['snakes']:
             self.snakes.append(Snake((snake['x'], snake['y']), snake['id'], snake['dir']))
