@@ -1,10 +1,10 @@
 import json
 import random
 
-from apple import Apple
-from block import Block
-from level import Level
-from snake import Snake
+from common.apple import Apple
+from common.block import Block
+from common.level import Level
+from common.snake import Snake
 
 
 class GameLogic:

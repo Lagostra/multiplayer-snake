@@ -2,7 +2,7 @@ import json
 import threading
 import time
 
-from game_logic import GameLogic
+from common.game_logic import GameLogic
 
 
 class Game:

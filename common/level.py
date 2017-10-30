@@ -1,8 +1,8 @@
 import itertools
 
-from apple import Apple
-from block import Block
-from snake import Snake
+from common.apple import Apple
+from common.block import Block
+from common.snake import Snake
 
 
 class Level:

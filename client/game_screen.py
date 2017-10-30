@@ -3,7 +3,7 @@ import json
 import pygame
 import sys
 
-from game_logic import GameLogic
+from common.game_logic import GameLogic
 
 
 class GameScreen(pygame.Surface):

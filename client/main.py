@@ -3,9 +3,9 @@ import socket
 import sys
 import os
 
-from socketwrapper import SocketWrapper
-from game_screen import GameScreen
-import preferences
+from common.socketwrapper import SocketWrapper
+from client.game_screen import GameScreen
+from common import preferences
 
 
 class Client:
