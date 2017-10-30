@@ -26,7 +26,7 @@ class Client:
 
 
         self.clock = pygame.time.Clock()
-        self.connect(preferences.preferences['server'])
+        self.connect((preferences.preferences['server'], preferences.preferences['port']))
         self.screen = GameScreen(dimensions, self.socket)
 
     def toggle_fullscreen(self):

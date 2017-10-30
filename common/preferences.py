@@ -5,7 +5,8 @@ PREFERENCES_FILE = 'preferences.json'
 preferences = {
     'resolution': (800, 600),
     'fullscreen': False,
-    'server': ('localhost', 47777),
+    'server': 'localhost',
+    'port': 47777,
 }
 
 def load():
@@ -16,7 +17,6 @@ def load():
             for key, value in prefs.items():
                 preferences[key] = value
 
-            preferences['server'] = tuple(preferences['server'])
             preferences['resolution'] = tuple(preferences['resolution'])
     except FileNotFoundError:
         return
