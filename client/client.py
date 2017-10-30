@@ -4,6 +4,7 @@ import sys
 
 from socketwrapper import SocketWrapper
 from game_screen import GameScreen
+import preferences
 
 
 class Client:
@@ -16,16 +17,16 @@ class Client:
         self.display = pygame.display.set_mode(dimensions)
         pygame.display.set_caption('Snakes')
         self.clock = pygame.time.Clock()
-        self.connect('192.168.1.162', 47777)
+        self.connect(preferences.preferences['server'])
         self.screen = GameScreen(dimensions, self.socket)
 
     def start(self):
         self.running = True
         self.run()
 
-    def connect(self, address, port):
+    def connect(self, address):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((address, port))
+        sock.connect(address)
         self.socket = SocketWrapper(sock)
         self.socket.start_listening()
 
@@ -59,5 +60,8 @@ class Client:
 
 
 if __name__ == '__main__':
-    client = Client((800, 600))
+    preferences.load()
+    preferences.save()
+
+    client = Client(preferences.preferences['resolution'])
     client.start()

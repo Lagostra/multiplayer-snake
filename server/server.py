@@ -1,4 +1,6 @@
 import socket
+
+import preferences
 from lobby import Lobby
 from socketwrapper import SocketWrapper
 
@@ -28,5 +30,8 @@ class Server:
             client_socket.start_listening()
 
 if __name__ == '__main__':
+    preferences.load()
+    preferences.save()
+
     server = Server(47777)
     server.start()
