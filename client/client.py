@@ -12,6 +12,7 @@ class Client:
 
     running = False
     socket = None
+    alt_down = False
 
     def __init__(self, dimensions):
         pygame.init()
@@ -62,6 +63,15 @@ class Client:
                     pygame.quit()
                     sys.exit(0)  # Force quit - maybe change this later...
                     #self.stop()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LALT or event.key == pygame.K_RALT:
+                        self.alt_down = True
+                    elif self.alt_down and event.key == pygame.K_F4:
+                        pygame.quit()
+                        sys.exit(0)
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LALT or event.key == pygame.K_RALT:
+                        self.alt_down = False
 
             self.render()
 
