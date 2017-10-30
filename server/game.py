@@ -73,7 +73,8 @@ class Game:
         # If message is falsy, connection has been lost
         if not message:
             self.players.remove(player)
-            self.game_logic.level.snakes.remove(player.snake)
+            if player.snake in self.game_logic.level.snakes:
+                self.game_logic.level.snakes.remove(player.snake)
 
         try:
             message = json.loads(message)

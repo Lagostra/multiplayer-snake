@@ -99,7 +99,7 @@ class GameScreen(pygame.Surface):
     def handle_message(self, socket, message):
         try:
             message = json.loads(message)
-        except json.decoder.JSONDecodeError:
+        except (json.decoder.JSONDecodeError, TypeError):
             # Invalid JSON format - ignore message
             return
 

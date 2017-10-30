@@ -49,6 +49,8 @@ class Client:
 
     def stop(self):
         self.running = False
+        self.socket.stop_listening()
+        pygame.quit()
 
     def render(self):
         self.screen.render()
@@ -69,15 +71,14 @@ class Client:
 
             for event in events:
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit(0)  # Force quit - maybe change this later...
-                    #self.stop()
+                    self.stop()
+                    return
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LALT or event.key == pygame.K_RALT:
                         self.alt_down = True
                     elif self.alt_down and event.key == pygame.K_F4:
-                        pygame.quit()
-                        sys.exit(0)
+                        self.stop()
+                        return
                     elif self.alt_down and event.key == pygame.K_RETURN:
                         self.toggle_fullscreen()
                 elif event.type == pygame.KEYUP:
