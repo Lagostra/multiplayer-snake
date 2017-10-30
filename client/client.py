@@ -1,6 +1,7 @@
 import pygame
 import socket
 import sys
+import os
 
 from socketwrapper import SocketWrapper
 from game_screen import GameScreen
@@ -14,8 +15,11 @@ class Client:
 
     def __init__(self, dimensions):
         pygame.init()
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
         self.display = pygame.display.set_mode(dimensions)
         pygame.display.set_caption('Snakes')
+
+
         self.clock = pygame.time.Clock()
         self.connect(preferences.preferences['server'])
         self.screen = GameScreen(dimensions, self.socket)
