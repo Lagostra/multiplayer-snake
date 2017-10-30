@@ -19,6 +19,8 @@ class SocketWrapper:
 
     def stop_listening(self):
         self.listening = False
+        for listener in self.listeners:
+            listener(self, None)
 
     def listen(self):
         while self.listening:
