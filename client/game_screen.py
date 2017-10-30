@@ -14,6 +14,7 @@ class GameScreen(pygame.Surface):
     def __init__(self, dimensions, socket=None):
         super().__init__(dimensions)
 
+        self.countdown = 0
         self.game = GameLogic()
         self.dimensions = dimensions
         self.local_game = socket is None
@@ -101,6 +102,11 @@ class GameScreen(pygame.Surface):
                     else:
                         pygame.draw.rect(self, (255, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
 
+        if self.countdown:
+            font = pygame.font.SysFont('Arial', 40)
+            label = font.render(str(self.countdown), 1, (0, 0, 0))
+            self.blit(label, (self.get_width()/2 - label.get_width() / 2, self.get_height() / 2 - label.get_height() / 2))
+
     def handle_message(self, socket, message):
         # If falsy message, connection is lost
         if not message:
@@ -112,7 +118,11 @@ class GameScreen(pygame.Surface):
             # Invalid JSON format - ignore message
             return
 
-        if message['type'] == 'init':
+        print(message)
+
+        if message['type'] == 'countdown':
+            self.countdown = message['payload']
+        elif message['type'] == 'init':
             self.game.level.init_from_json(message['payload'])
             self.player_snake = next(filter(lambda x: x.id == message['payload']['player_snake'], self.game.level.snakes))
         elif message['type'] == 'tick':

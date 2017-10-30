@@ -24,6 +24,8 @@ class Game:
         for player in self.players:
             player.snake = self.game_logic.add_snake()
 
+        self.game_logic.spawn_apples()
+
         payload = {
             'level_size': {'width': self.game_logic.level.dimensions[0], 'height': self.game_logic.level.dimensions[1]},
             'snakes': [],
@@ -49,6 +51,15 @@ class Game:
                 'payload': payload
             })
             player.user.socket.send(message)
+
+
+        self.send_to_all(json.dumps({'type': 'countdown', 'payload': 3}))
+        time.sleep(1)
+        self.send_to_all(json.dumps({'type': 'countdown', 'payload': 2}))
+        time.sleep(1)
+        self.send_to_all(json.dumps({'type': 'countdown', 'payload': 1}))
+        time.sleep(1)
+        self.send_to_all(json.dumps({'type': 'countdown', 'payload': 0}))
 
         threading.Thread(target=lambda: self.run()).start()
 
