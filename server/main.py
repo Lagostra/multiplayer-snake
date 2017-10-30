@@ -1,8 +1,8 @@
 import socket
 
-from common import preferences
 from server.lobby import Lobby
 from common.socketwrapper import SocketWrapper
+
 
 class Server:
 

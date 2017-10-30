@@ -1,6 +1,5 @@
 import pygame
 import socket
-import sys
 import os
 
 from common.socketwrapper import SocketWrapper

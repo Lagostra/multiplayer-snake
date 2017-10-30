@@ -1,4 +1,3 @@
-import json
 import random
 
 from common.apple import Apple

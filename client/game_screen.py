@@ -1,7 +1,6 @@
 import json
 
 import pygame
-import sys
 
 from common.game_logic import GameLogic
 

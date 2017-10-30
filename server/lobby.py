@@ -1,6 +1,7 @@
 import json
 
-from game import Game
+from server.game import Game
+
 
 class Lobby:
 
