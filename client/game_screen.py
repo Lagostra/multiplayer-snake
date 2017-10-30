@@ -46,13 +46,13 @@ class GameScreen(pygame.Surface):
         else:
             for event in events:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 0}))
-                    elif event.key == pygame.K_DOWN:
+                    elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 2}))
-                    elif event.key == pygame.K_LEFT:
+                    elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 3}))
-                    elif event.key == pygame.K_RIGHT:
+                    elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         self.socket.send(json.dumps({'type': 'move', 'payload': 1}))
                     elif event.key == pygame.K_SPACE:
                         self.socket.send(json.dumps({'type': 'poop'}))
