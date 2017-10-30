@@ -111,4 +111,4 @@ class GameScreen(pygame.Surface):
             #self.game.read_json(message['payload'])
             #self.game.tick()
         elif message['type'] == 'game_over':
-            pass
+            print('Game Over')
