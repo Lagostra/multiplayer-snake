@@ -22,4 +22,4 @@ def load():
 
 def save():
     with open(PREFERENCES_FILE, 'w') as file:
-        file.write(json.dumps(preferences))
+        file.write(json.dumps(preferences, indent=4, sort_keys=True))
