@@ -14,6 +14,7 @@ class Client:
     def __init__(self, dimensions):
         pygame.init()
         self.display = pygame.display.set_mode(dimensions)
+        pygame.display.set_caption('Snakes')
         self.clock = pygame.time.Clock()
         self.connect('192.168.1.162', 47777)
         self.screen = GameScreen(dimensions, self.socket)
