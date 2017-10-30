@@ -57,11 +57,11 @@ class Game:
             player.user.socket.send(message)
 
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 3}))
-        time.sleep(1)
+        time.sleep(0.5)
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 2}))
-        time.sleep(1)
+        time.sleep(0.5)
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 1}))
-        time.sleep(1)
+        time.sleep(0.5)
         self.send_to_all(json.dumps({'type': 'countdown', 'payload': 0}))
 
         self.run()
