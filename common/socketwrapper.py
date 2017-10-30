@@ -19,6 +19,7 @@ class SocketWrapper:
 
     def stop_listening(self):
         self.listening = False
+        self.socket.close()
         for listener in self.listeners:
             listener(self, None)
 
