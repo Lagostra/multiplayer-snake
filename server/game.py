@@ -84,7 +84,11 @@ class Game:
         if message['type'] == 'move' and self.started:
             self.game_logic.player_move(player.snake, int(message['payload']))
 
+    ticks = 0
     def tick(self):
+        self.ticks += 1
+        if self.ticks % 50 == 0:
+            self.game_logic.level.dimensions = (self.game_logic.level.dimensions[0] + 2, self.game_logic.level.dimensions[1] + 2)
         self.game_logic.tick()
         self.game_logic.spawn_apples()
 
