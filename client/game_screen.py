@@ -118,8 +118,6 @@ class GameScreen(pygame.Surface):
             # Invalid JSON format - ignore message
             return
 
-        print(message)
-
         if message['type'] == 'countdown':
             self.countdown = message['payload']
         elif message['type'] == 'init':

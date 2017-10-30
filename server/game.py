@@ -25,6 +25,7 @@ class Game:
             player.snake = self.game_logic.add_snake()
 
         self.game_logic.spawn_apples()
+        self.game_logic.get_json()
 
         payload = {
             'level_size': {'width': self.game_logic.level.dimensions[0], 'height': self.game_logic.level.dimensions[1]},
