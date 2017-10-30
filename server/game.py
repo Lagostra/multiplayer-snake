@@ -75,6 +75,7 @@ class Game:
             self.players.remove(player)
             if player.snake in self.game_logic.level.snakes:
                 self.game_logic.level.snakes.remove(player.snake)
+            return
 
         try:
             message = json.loads(message)

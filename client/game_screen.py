@@ -97,9 +97,13 @@ class GameScreen(pygame.Surface):
                         pygame.draw.rect(self, (255, 255, 0), (x + x_offset, y + y_offset, tile_size, tile_size))
 
     def handle_message(self, socket, message):
+        # If falsy message, connection is lost
+        if not message:
+            return
+
         try:
             message = json.loads(message)
-        except (json.decoder.JSONDecodeError, TypeError):
+        except json.decoder.JSONDecodeError:
             # Invalid JSON format - ignore message
             return
 
