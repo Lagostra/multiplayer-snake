@@ -8,6 +8,7 @@ from game_logic import GameLogic
 class Game:
 
     def __init__(self, admin_user):
+        self.ticks = 0
         self.players = []
         self.add_player(admin_user)
         self.admin_user = admin_user
@@ -69,6 +70,11 @@ class Game:
         if not player:
             return
 
+        # If message is falsy, connection has been lost
+        if not message:
+            self.players.remove(player)
+            self.game_logic.level.snakes.remove(player.snake)
+
         try:
             message = json.loads(message)
         except json.decoder.JSONDecodeError:
@@ -84,7 +90,6 @@ class Game:
         if message['type'] == 'move' and self.started:
             self.game_logic.player_move(player.snake, int(message['payload']))
 
-    ticks = 0
     def tick(self):
         self.ticks += 1
         if self.ticks % 50 == 0:
