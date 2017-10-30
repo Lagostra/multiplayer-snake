@@ -4,6 +4,7 @@ PREFERENCES_FILE = '../preferences.json'
 
 preferences = {
     'resolution': (800, 600),
+    'fullscreen': False,
     'server': ('localhost', 47777),
 }
 

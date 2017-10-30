@@ -16,7 +16,10 @@ class Client:
     def __init__(self, dimensions):
         pygame.init()
         os.environ['SDL_VIDEO_CENTERED'] = '1'
-        self.display = pygame.display.set_mode(dimensions)
+        if preferences.preferences['fullscreen']:
+            self.display = pygame.display.set_mode(dimensions, pygame.FULLSCREEN)
+        else:
+            self.display = pygame.display.set_mode(dimensions)
         pygame.display.set_caption('Snakes')
 
 
