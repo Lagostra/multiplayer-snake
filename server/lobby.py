@@ -6,6 +6,7 @@ from server.game import Game
 class Lobby:
 
     user_counter = 1
+    game_counter = 1
     games = []
 
     def __init__(self):
@@ -24,7 +25,8 @@ class Lobby:
                 game = g
                 break
         if not game:
-            self.games.append(Game(user))
+            self.games.append(Game(user, self.game_counter, 'Game ' + str(self.game_counter)))
+            self.game_counter += 1
         else:
             game.add_player(user)
 
@@ -32,6 +34,9 @@ class Lobby:
         message = json.dumps({'type': msg_type, 'payload': payload})
         if not user.socket.send(message):
             self.users.remove(user)
+
+    def get_game(self, identity):
+        return next(filter(lambda x: x.id == identity, self.games))
 
     def send_to_all(self, msg_type, payload):
         for user in self.users:

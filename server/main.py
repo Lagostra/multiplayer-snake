@@ -22,6 +22,7 @@ class Server:
         self.user_input()
 
     def stop(self):
+        print('Stopping server...')
         self.running = False
         self.socket.close()
         self.lobby.stop()
@@ -38,9 +39,19 @@ class Server:
 
     def user_input(self):
         while self.running:
-            cmd = input()
+            args = input('>> ').split()
+            cmd = args[0]
 
             if cmd in ['close', 'exit', 'stop']:
-                print('Stopping server...')
                 self.stop()
                 return
+            elif cmd == 'users':
+                print(','.join(map(lambda x: x.username, self.lobby.users)))
+            elif cmd == 'games':
+                print(','.join(map(lambda x: str(x.id) + ':' + x.name, self.lobby.games)))
+            elif cmd == 'game':
+                try:
+                    game = self.lobby.get_game(int(args[1]))
+                    print('ID: ' + str(game.id) + ', Name: ' + game.name + ', Players: ' + str(len(game.players)))
+                except ValueError:
+                    print('Invalid format')
