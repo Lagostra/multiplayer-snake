@@ -79,7 +79,7 @@ class GameScreen(pygame.Surface):
             self.game.read_json(self.tick_queue.pop(0))
             self.game.tick()
 
-        if not self.started and not self.game_over:
+        if not self.started and not self.game_over and self.is_admin:
             self.start_button.update(events)
         if self.game_over:
             self.game_over_screen.update(events)
@@ -123,7 +123,7 @@ class GameScreen(pygame.Surface):
             label = font.render(str(self.countdown), 1, (0, 0, 0))
             self.blit(label, (self.get_width()/2 - label.get_width() / 2, self.get_height() / 2 - label.get_height() / 2))
 
-        if not self.started and not self.game_over:
+        if not self.started and not self.game_over and self.is_admin:
             self.start_button.render()
             self.blit(self.start_button, self.start_button.position)
 

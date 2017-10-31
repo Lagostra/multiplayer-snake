@@ -15,7 +15,8 @@ class GameOverScreen(pygame.Surface):
                                      click_handlers=[game_screen.restart])
 
     def update(self, events):
-        self.restart_button.update(events)
+        if self.game_screen.is_admin:
+            self.restart_button.update(events)
 
     def render(self):
         self.restart_button.render()
@@ -25,4 +26,5 @@ class GameOverScreen(pygame.Surface):
         game_over = pygame.font.SysFont('Georgia', 60, bold=True).render('Game Over', True, (0, 0, 0))
         self.blit(game_over, ((self.get_width() - game_over.get_width()) / 2, 50))
 
-        self.blit(self.restart_button, self.restart_button.position)
+        if self.game_screen.is_admin:
+            self.blit(self.restart_button, self.restart_button.position)
