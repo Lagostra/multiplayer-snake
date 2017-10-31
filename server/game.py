@@ -125,10 +125,21 @@ class Game:
         })
         self.send_to_all(message)
 
-        if not len(self.game_logic.level.snakes):
+        if len(self.players) == 1 and not len(self.game_logic.level.snakes)\
+                or len(self.players) > 1 and len(self.game_logic.level.snakes) < 2:
             # No more snakes - GAME OVER
+            scores = []
+            for player in self.players:
+                scores.append({
+                    'score': player.snake.score,
+                    'id': player.snake.id,
+                    'username': player.user.username
+                })
             self.send_to_all(json.dumps({
-                'type': 'game_over'
+                'type': 'game_over',
+                'payload': {
+                    'scores': scores
+                }
             }))
             self.running = False
 

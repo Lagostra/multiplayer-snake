@@ -129,3 +129,4 @@ class GameScreen(pygame.Surface):
             #self.game.tick()
         elif message['type'] == 'game_over':
             print('Game Over')
+            print(message['payload']['scores'])
