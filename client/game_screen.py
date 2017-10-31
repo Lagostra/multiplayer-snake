@@ -9,6 +9,9 @@ class GameScreen(pygame.Surface):
 
     local_game = True
     is_admin = False
+    started = False
+    game_over = False
+
     tick_queue = []
     player_snake = None
 
@@ -122,6 +125,8 @@ class GameScreen(pygame.Surface):
         if message['type'] == 'countdown':
             self.countdown = message['payload']
         elif message['type'] == 'init':
+            self.started = True
+            self.game_over = False
             self.game.level.init_from_json(message['payload'])
             self.player_snake = next(filter(lambda x: x.id == message['payload']['player_snake'], self.game.level.snakes))
         elif message['type'] == 'tick':
@@ -129,6 +134,8 @@ class GameScreen(pygame.Surface):
             #self.game.read_json(message['payload'])
             #self.game.tick()
         elif message['type'] == 'game_over':
+            self.started = False
+            self.game_over = True
             print('Game Over')
             print(message['payload']['scores'])
         elif message['type'] == 'is_admin':
