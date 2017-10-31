@@ -68,6 +68,13 @@ class Lobby:
             # Invalid message - ignore
             return
 
+    def stop(self):
+        for game in self.games:
+            game.stop()
+
+        for user in self.users:
+            user.socket.stop_listening()
+
 class User:
 
     def __init__(self, socket, user_no):
