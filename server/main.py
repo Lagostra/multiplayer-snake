@@ -51,7 +51,12 @@ class Server:
                 print(','.join(map(lambda x: str(x.id) + ':' + x.name, self.lobby.games)))
             elif cmd == 'game':
                 try:
-                    game = self.lobby.get_game(int(args[1]))
-                    print('ID: ' + str(game.id) + ', Name: ' + game.name + ', Players: ' + str(len(game.players)))
+                    game = self.lobby.get_game(int(args[2]))
                 except ValueError:
                     print('Invalid format')
+                    continue
+                if args[1] == 'info':
+                    print('ID: ' + str(game.id) + ', Name: ' + game.name + ', Players: ' + str(len(game.players)))
+                elif args[1] == 'stop':
+                    game.stop()
+                    self.lobby.games.remove(game)
