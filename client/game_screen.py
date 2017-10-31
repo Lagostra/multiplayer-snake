@@ -168,5 +168,6 @@ class GameScreen(pygame.Surface):
             self.game_over = True
             print('Game Over')
             print(message['payload']['scores'])
+            self.game_over_screen.results = message['payload']['scores']
         elif message['type'] == 'is_admin':
             self.is_admin = True
