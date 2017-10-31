@@ -2,6 +2,7 @@ import json
 
 import pygame
 
+from client.game_over_screen import GameOverScreen
 from common.GUI.button import Button
 from common.game_logic import GameLogic
 
@@ -29,6 +30,8 @@ class GameScreen(pygame.Surface):
 
         self.start_button = Button((self.get_width()/2 - 50, self.get_height()/2 - 20), (100, 40),
                                    text='Start Game', click_handlers=[self.start])
+
+        self.game_over_screen = GameOverScreen((0, 0), self.dimensions, self)
 
     def update(self, events):
         if self.local_game:
@@ -67,7 +70,7 @@ class GameScreen(pygame.Surface):
                     elif event.key == pygame.K_RETURN:
                         self.start()
                     elif event.key == pygame.K_r:
-                        self.socket.send(json.dumps({'type': 'restart'}))
+                        self.restart()
 
         if self.local_game:
             self.game.tick()
@@ -76,8 +79,10 @@ class GameScreen(pygame.Surface):
             self.game.read_json(self.tick_queue.pop(0))
             self.game.tick()
 
-        self.start_button.update(events)
-
+        if not self.started and not self.game_over:
+            self.start_button.update(events)
+        if self.game_over:
+            self.game_over_screen.update(events)
 
     def render(self):
         self.fill((0, 0, 0))
@@ -122,10 +127,19 @@ class GameScreen(pygame.Surface):
             self.start_button.render()
             self.blit(self.start_button, self.start_button.position)
 
+        if self.game_over:
+            self.game_over_screen.render()
+            self.blit(self.game_over_screen, self.game_over_screen.position)
+
     def start(self):
         if not self.started:
             if not self.local_game:
                 self.socket.send(json.dumps({'type': 'start_game'}))
+
+    def restart(self):
+        if not self.started and self.game_over:
+            if not self.local_game:
+                self.socket.send(json.dumps({'type': 'restart'}))
 
     def handle_message(self, socket, message):
         # If falsy message, connection is lost
@@ -147,8 +161,8 @@ class GameScreen(pygame.Surface):
             self.player_snake = next(filter(lambda x: x.id == message['payload']['player_snake'], self.game.level.snakes))
         elif message['type'] == 'tick':
             self.tick_queue.append(message['payload'])
-            #self.game.read_json(message['payload'])
-            #self.game.tick()
+            # self.game.read_json(message['payload'])
+            # self.game.tick()
         elif message['type'] == 'game_over':
             self.started = False
             self.game_over = True
