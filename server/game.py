@@ -88,7 +88,7 @@ class Game:
         # If message is falsy, connection has been lost
         if not message:
             self.players.remove(player)
-            if player.snake in self.game_logic.level.snakes:
+            if self.started and player.snake in self.game_logic.level.snakes:
                 self.game_logic.level.snakes.remove(player.snake)
             return
 
