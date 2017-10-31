@@ -36,8 +36,8 @@ class GameOverScreen(pygame.Surface):
             font = pygame.font.SysFont('Arial', 20)
             for i in range(min(len(self.results), 5)):
                 r = self.results[i]
-                label = font.render('{:<15}{:<50}{:>10}{:>15}'.format(str(i), r['username'],
-                                                                      str(r['score']), str(r['wins'])), True, (0, 0, 0))
+                label = font.render('{:<15}{:<50}{:>10}{:>15}'.format(str(i+1), r['username'], str(int(r['score'])),
+                                                                      str(r['wins'])), True, (0, 0, 0))
                 self.blit(label, ((self.get_width() - label.get_width()) / 2, 200 + 25 * (i + 1)))
 
         if self.game_screen.is_admin:
