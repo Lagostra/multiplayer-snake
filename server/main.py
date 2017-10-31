@@ -42,7 +42,9 @@ class Server:
             args = input('>> ').split()
             cmd = args[0]
 
-            if cmd in ['close', 'exit', 'stop']:
+            if cmd in ['help', '?']:
+                self.print_help()
+            elif cmd in ['close', 'exit', 'stop']:
                 self.stop()
                 return
             elif cmd == 'users':
@@ -60,3 +62,15 @@ class Server:
                 elif args[1] == 'stop':
                     game.stop()
                     self.lobby.games.remove(game)
+
+    def print_help(self):
+        print()
+        print('Available commands:')
+        print()
+        print('help\t\t\t\t\t\t', 'Display this overview')
+        print('users\t\t\t\t\t\t', 'List connected users')
+        print('games\t\t\t\t\t\t', 'List all games')
+        print('game\t\t\t\t\t\t', 'Manage games')
+        print('\t game info <game_id>\t', 'Display info about game with id <game_id>')
+        print('\t game stop <game_id>\t', 'Stop game with id <game_id>')
+        print()
