@@ -8,6 +8,7 @@ from common.game_logic import GameLogic
 class GameScreen(pygame.Surface):
 
     local_game = True
+    is_admin = False
     tick_queue = []
     player_snake = None
 
@@ -130,3 +131,5 @@ class GameScreen(pygame.Surface):
         elif message['type'] == 'game_over':
             print('Game Over')
             print(message['payload']['scores'])
+        elif message['type'] == 'is_admin':
+            self.is_admin = True

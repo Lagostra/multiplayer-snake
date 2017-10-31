@@ -19,6 +19,8 @@ class Game:
         self.name = name
         self.game_logic = None
 
+        admin_user.socket.send(json.dumps({'type': 'is_admin'}))
+
     def start(self):
         threading.Thread(target=lambda: self._start()).start()
 
