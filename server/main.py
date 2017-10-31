@@ -50,7 +50,7 @@ class Server:
             elif cmd == 'users':
                 print(','.join(map(lambda x: x.username, self.lobby.users)))
             elif cmd == 'games':
-                print(','.join(map(lambda x: str(x.id) + ':' + x.name, self.lobby.games)))
+                print(','.join(map(lambda x: str(x.id) + ':' + x.name, self.lobby.get_games())))
             elif cmd == 'game':
                 try:
                     game = self.lobby.get_game(int(args[2]))

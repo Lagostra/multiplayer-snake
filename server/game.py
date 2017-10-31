@@ -12,6 +12,7 @@ class Game:
         self.players = []
         self.started = False
         self.running = False
+        self.stopped = False
         self.add_player(admin_user)
         self.admin_user = admin_user
         self.id = id
@@ -70,12 +71,23 @@ class Game:
 
     def stop(self):
         self.running = False
+        self.stopped = True
 
     def add_player(self, user):
         if self.started:
             return
         self.players.append(Player(user))
         user.socket.listeners.append(self.handle_message)
+
+    def remove_player(self, player):
+        if player in self.players:
+            self.players.remove(player)
+
+            if self.started and player.snake in self.game_logic.level.snakes:
+                self.game_logic.level.snakes.remove(player.snake)
+
+        if len(self.players) == 0:
+            self.stop()
 
     def send_to_all(self, message):
         for player in self.players:
@@ -89,9 +101,7 @@ class Game:
 
         # If message is falsy, connection has been lost
         if not message:
-            self.players.remove(player)
-            if self.started and player.snake in self.game_logic.level.snakes:
-                self.game_logic.level.snakes.remove(player.snake)
+            self.remove_player(player)
             return
 
         try:

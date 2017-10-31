@@ -35,8 +35,12 @@ class Lobby:
         if not user.socket.send(message):
             self.users.remove(user)
 
+    def get_games(self):
+        self.games = list(filter(lambda x: not x.stopped, self.games))
+        return self.games
+
     def get_game(self, identity):
-        return next(filter(lambda x: x.id == identity, self.games))
+        return next(filter(lambda x: x.id == identity, self.get_games()))
 
     def send_to_all(self, msg_type, payload):
         for user in self.users:
