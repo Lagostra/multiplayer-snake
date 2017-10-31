@@ -1,3 +1,5 @@
+import json
+
 import pygame
 import socket
 import os
@@ -45,6 +47,7 @@ class Client:
         sock.connect(address)
         self.socket = SocketWrapper(sock)
         self.socket.start_listening()
+        self.socket.send(json.dumps({'type': 'change_username', 'payload': preferences.preferences['username']}))
 
     def stop(self):
         self.running = False

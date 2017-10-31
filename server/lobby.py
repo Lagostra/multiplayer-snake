@@ -69,7 +69,15 @@ class Lobby:
         # Handle message
         try:
             if message['type'] == 'change_username':
-                user.username = message['payload']
+                username = message['payload']
+                taken_usernames = map(lambda x: x.username, self.users)
+                count = 1
+                while username in taken_usernames:
+                    username = message['payload'] + str(count)
+                    count += 1
+
+                user.username = username
+                socket.send(json.dumps({'type': 'set_username', 'payload': username}))
             elif message['type'] == 'message':
                 payload = {'user': user.username, 'message': message['payload']}
                 self.send_to_all('message', payload)

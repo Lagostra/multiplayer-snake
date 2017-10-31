@@ -7,6 +7,7 @@ preferences = {
     'fullscreen': False,
     'server': 'localhost',
     'port': 47777,
+    'username': 'Anonymous',
 }
 
 def load():
