@@ -111,6 +111,7 @@ class GameLogic:
 
         for dead_snake in snakes_collided:
             level.snakes.remove(dead_snake)
+            dead_snake.score *= 0.7
 
         for snake in level.snakes:
             if snake.body[0] in list(map(lambda x: x.position, level.apples)):
