@@ -129,11 +129,13 @@ class Game:
                 or len(self.players) > 1 and len(self.game_logic.level.snakes) < 2:
             # No more snakes - GAME OVER
             scores = []
+            sorted(self.players, key=lambda x: -x.snake.score)[0].wins += 1
             for player in self.players:
                 scores.append({
                     'score': player.snake.score,
                     'id': player.snake.id,
-                    'username': player.user.username
+                    'username': player.user.username,
+                    'wins': player.wins
                 })
             self.send_to_all(json.dumps({
                 'type': 'game_over',
@@ -161,3 +163,4 @@ class Player:
 
     def __init__(self, user):
         self.user = user
+        self.wins = 0
