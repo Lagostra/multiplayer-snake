@@ -2,6 +2,7 @@ import json
 
 import pygame
 
+from common.GUI.button import Button
 from common.game_logic import GameLogic
 
 
@@ -25,6 +26,9 @@ class GameScreen(pygame.Surface):
         self.socket = socket
         if socket:
             socket.listeners.append(self.handle_message)
+
+        self.start_button = Button((self.get_width()/2 - 50, self.get_height()/2 - 20), (100, 40),
+                                   text='Start Game', click_handlers=[self.start])
 
     def update(self, events):
         if self.local_game:
@@ -61,7 +65,7 @@ class GameScreen(pygame.Surface):
                     elif event.key == pygame.K_SPACE:
                         self.socket.send(json.dumps({'type': 'poop'}))
                     elif event.key == pygame.K_RETURN:
-                        self.socket.send(json.dumps({'type': 'start_game'}))
+                        self.start()
                     elif event.key == pygame.K_r:
                         self.socket.send(json.dumps({'type': 'restart'}))
 
@@ -71,6 +75,9 @@ class GameScreen(pygame.Surface):
         elif len(self.tick_queue):
             self.game.read_json(self.tick_queue.pop(0))
             self.game.tick()
+
+        self.start_button.update(events)
+
 
     def render(self):
         self.fill((0, 0, 0))
@@ -110,6 +117,15 @@ class GameScreen(pygame.Surface):
             font = pygame.font.SysFont('Arial', 40)
             label = font.render(str(self.countdown), 1, (0, 0, 0))
             self.blit(label, (self.get_width()/2 - label.get_width() / 2, self.get_height() / 2 - label.get_height() / 2))
+
+        if not self.started and not self.game_over:
+            self.start_button.render()
+            self.blit(self.start_button, self.start_button.position)
+
+    def start(self):
+        if not self.started:
+            if not self.local_game:
+                self.socket.send(json.dumps({'type': 'start_game'}))
 
     def handle_message(self, socket, message):
         # If falsy message, connection is lost

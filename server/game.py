@@ -7,7 +7,7 @@ from common.game_logic import GameLogic
 
 class Game:
 
-    def __init__(self, admin_user, id, name):
+    def __init__(self, admin_user, identity, name):
         self.ticks = 0
         self.players = []
         self.started = False
@@ -15,7 +15,7 @@ class Game:
         self.stopped = False
         self.add_player(admin_user)
         self.admin_user = admin_user
-        self.id = id
+        self.id = identity
         self.name = name
         self.game_logic = None
 

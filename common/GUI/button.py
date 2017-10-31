@@ -12,7 +12,7 @@ class Button(pygame.Surface):
         self.text = text
         self.background_colour = background_colour
         self.text_colour = text_colour
-        self.font = pygame.SysFont(font, font_size)
+        self.font = pygame.font.SysFont(font, font_size)
         self.background_image = background_image
         self.outline = outline
         self.click_handlers = click_handlers
