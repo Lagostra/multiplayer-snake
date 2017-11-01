@@ -31,6 +31,10 @@ class List(pygame.Surface):
                     self.scroll_offset -= 10
                 elif event.button == 5:
                     self.scroll_offset += 10
+                elif event.button == 1:
+                    index = int((y + self.scroll_offset)/(self.font.get_linesize()*(1 + 2*self.pad)))
+                    if 0 <= index < len(self.data):
+                        self.selected_item = self.data[index]
 
                 upper_limit = max(len(self.data) * (self.font.get_linesize() * (1 + 2*self.pad)) - self.get_height(), 0)
                 if self.scroll_offset < 0:
