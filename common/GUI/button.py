@@ -4,15 +4,15 @@ import pygame
 class Button(pygame.Surface):
 
     def __init__(self, position, dimensions, text=None, background_colour=(255, 255, 255),
-                 text_colour=(0,0,0), font='Arial', font_size=20, background_image=None, outline=(1, (0, 0, 0)),
-                 click_handlers=[]):
+                 text_colour=(0,0,0), font='Arial', font_size=20, bold=False, background_image=None,
+                 outline=(1, (0, 0, 0)), click_handlers=[]):
         super().__init__(dimensions)
         self.position = position
 
         self.text = text
         self.background_colour = background_colour
         self.text_colour = text_colour
-        self.font = pygame.font.SysFont(font, font_size)
+        self.font = pygame.font.SysFont(font, font_size, bold=bold)
         self.background_image = background_image
         self.outline = outline
         self.click_handlers = click_handlers
