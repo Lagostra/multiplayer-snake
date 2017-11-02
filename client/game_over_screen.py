@@ -17,7 +17,7 @@ class GameOverScreen(pygame.Surface):
                                      click_handlers=[game_screen.restart])
 
     def update(self, events):
-        if self.game_screen.is_admin:
+        if self.game_screen.is_admin or self.game_screen.local_game:
             self.restart_button.update(events)
 
     def render(self):
@@ -40,5 +40,5 @@ class GameOverScreen(pygame.Surface):
                                                                       str(r['wins'])), True, (0, 0, 0))
                 self.blit(label, ((self.get_width() - label.get_width()) / 2, 200 + 25 * (i + 1)))
 
-        if self.game_screen.is_admin:
+        if self.game_screen.is_admin or self.game_screen.local_game:
             self.blit(self.restart_button, self.restart_button.position)

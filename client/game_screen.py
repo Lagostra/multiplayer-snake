@@ -1,6 +1,7 @@
 import json
 
 import pygame
+import time
 
 from client.game_over_screen import GameOverScreen
 from common.GUI.button import Button
@@ -13,6 +14,7 @@ class GameScreen(pygame.Surface):
     is_admin = False
     started = False
     game_over = False
+    last_tick = 0
 
     tick_queue = []
     player_snake = None
@@ -33,27 +35,28 @@ class GameScreen(pygame.Surface):
 
         self.game_over_screen = GameOverScreen((0, 0), self.dimensions, self)
 
+        if self.local_game:
+            self.player_snake = self.game.add_snake()
+            self.game.spawn_apples()
+
     def update(self, events):
         if self.local_game:
             for event in events:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        self.game.player_move(self.game.level.snakes[0], 0)
-                    elif event.key == pygame.K_DOWN:
-                        self.game.player_move(self.game.level.snakes[0], 2)
-                    elif event.key == pygame.K_LEFT:
-                        self.game.player_move(self.game.level.snakes[0], 3)
-                    elif event.key == pygame.K_RIGHT:
-                        self.game.player_move(self.game.level.snakes[0], 1)
-
-                    if event.key == pygame.K_w:
-                        self.game.player_move(self.game.level.snakes[1], 0)
-                    elif event.key == pygame.K_s:
-                        self.game.player_move(self.game.level.snakes[1], 2)
-                    elif event.key == pygame.K_a:
-                        self.game.player_move(self.game.level.snakes[1], 3)
-                    elif event.key == pygame.K_d:
-                        self.game.player_move(self.game.level.snakes[1], 1)
+                    if self.started:
+                        if event.key == pygame.K_UP or event.key == pygame.K_w:
+                            self.game.player_move(self.game.level.snakes[0], 0)
+                        elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                            self.game.player_move(self.game.level.snakes[0], 2)
+                        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                            self.game.player_move(self.game.level.snakes[0], 3)
+                        elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                            self.game.player_move(self.game.level.snakes[0], 1)
+                    else:
+                        if event.key == pygame.K_RETURN:
+                            self.start()
+                        elif event.key == pygame.K_r:
+                            self.restart()
         else:
             for event in events:
                 if event.type == pygame.KEYDOWN:
@@ -72,14 +75,21 @@ class GameScreen(pygame.Surface):
                     elif event.key == pygame.K_r:
                         self.restart()
 
-        if self.local_game:
-            self.game.tick()
-            self.game.spawn_apples()
+        if self.local_game and self.started:
+            cur_time = time.time()
+            if cur_time - self.last_tick > 1/10:
+                self.game.tick()
+                self.game.spawn_apples()
+                self.last_tick = cur_time
+
+                if len(self.game.level.snakes) == 0:
+                    self.started = False
+                    self.game_over = True
         elif len(self.tick_queue):
             self.game.read_json(self.tick_queue.pop(0))
             self.game.tick()
 
-        if not self.started and not self.game_over and self.is_admin:
+        if not self.started and not self.game_over and (self.is_admin or self.local_game):
             self.start_button.update(events)
         if self.game_over:
             self.game_over_screen.update(events)
@@ -123,7 +133,7 @@ class GameScreen(pygame.Surface):
             label = font.render(str(self.countdown), 1, (0, 0, 0))
             self.blit(label, (self.get_width()/2 - label.get_width() / 2, self.get_height() / 2 - label.get_height() / 2))
 
-        if not self.started and not self.game_over and self.is_admin:
+        if not self.started and not self.game_over and (self.is_admin or self.local_game):
             self.start_button.render()
             self.blit(self.start_button, self.start_button.position)
 
@@ -135,11 +145,19 @@ class GameScreen(pygame.Surface):
         if not self.started:
             if not self.local_game:
                 self.socket.send(json.dumps({'type': 'start_game'}))
+            else:
+                self.started = True
 
     def restart(self):
         if not self.started and self.game_over:
             if not self.local_game:
                 self.socket.send(json.dumps({'type': 'restart'}))
+            else:
+                self.game = GameLogic()
+                self.player_snake = self.game.add_snake()
+                self.game.spawn_apples()
+                self.game_over = False
+                self.started = True
 
     def handle_message(self, socket, message):
         # If falsy message, connection is lost
