@@ -4,6 +4,7 @@ import pygame
 import socket
 import os
 
+from client.main_menu import MainMenu
 from common.socketwrapper import SocketWrapper
 from client.game_screen import GameScreen
 from common import preferences
@@ -25,11 +26,10 @@ class Client:
             self.fullscreen = False
             self.display = pygame.display.set_mode(dimensions)
         pygame.display.set_caption('Snakes')
-
+        self.dimensions = dimensions
 
         self.clock = pygame.time.Clock()
-        self.connect((preferences.preferences['server'], preferences.preferences['port']))
-        self.screen = GameScreen(dimensions, self.socket)
+        self.screen = MainMenu(dimensions, self)
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
@@ -42,6 +42,12 @@ class Client:
         self.running = True
         self.run()
 
+    def start_game(self, single_player):
+        if not single_player:
+            self.connect((preferences.preferences['server'], preferences.preferences['port']))
+
+        self.screen = GameScreen(self.dimensions, self.socket)
+
     def connect(self, address):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(address)
@@ -51,7 +57,8 @@ class Client:
 
     def stop(self):
         self.running = False
-        self.socket.stop_listening()
+        if self.socket:
+            self.socket.stop_listening()
         pygame.quit()
 
     def render(self):
